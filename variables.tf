@@ -17,11 +17,11 @@ variable "toolchain_region" {
   default     = "us-south"
 }
 
-# variable "cos_api_key" {
-#   type        = string
-#   description = "COS API key"
-#   default     = ""
-# }
+variable "cos_api_key_secret_name" {
+  type        = string
+  description = "To enable the use of COS, a secret name to a COS API key secret in the secret provider is required. In addition `cos_endpoint` and `cos_bucket_name` must be set."
+  default     = "cos-api-key"
+}
 
 variable "inventory_repo_url" {
   type        = string
@@ -115,6 +115,65 @@ variable "toolchain_resource_group" {
   default     = "Default"
 }
 
+variable "cos_endpoint" {
+  type        = string
+  description = "Set the Cloud Object Storage endpoint for accessing your COS bucket."
+  default     = ""
+}
+
+variable "cos_bucket_name" {
+  type        = string
+  description = "Set the name of your COS bucket."
+  default     = ""
+}
+
+variable "enable_slack" {
+  type        = bool
+  description = "Set to `true` to create the integration. This requires a valid `slack_channel_name`, `slack_team_name`, and a valid `webhook` (see `slack_webhook_secret_name`)."
+  default     = false
+}
+
+variable "slack_channel_name" {
+  type        = string
+  description = "The Slack channel that notifications are posted to."
+  default     = "my-channel"
+}
+
+variable "slack_team_name" {
+  type        = string
+  description = "The Slack team name, which is the word or phrase before .slack.com in the team URL."
+  default     = "my-team"
+}
+
+variable "slack_webhook_secret_name" {
+  type        = string
+  description = "Name of the webhook secret in the secret provider."
+  default     = "slack-webhook"
+}
+
+variable "authorization_policy_creation" {
+  type        = string
+  description = "Disable Toolchain Service to Secrets Manager Service authorization policy creation. To disable set the value to `disabled`."
+  default     = ""
+}
+
+variable "slack_notifications" {
+  type        = string
+  description = "The switch that turns the Slack notification on (`1`) or off (`0`)."
+  default     = ""
+}
+
+variable "repo_group" {
+  type        = string
+  description = "Specify Git user or group for your application. This must be set if the repository authentication type is `pat` (personal access token)."
+  default     = ""
+}
+
+variable "repo_git_token_secret_name" {
+  type        = string
+  description = "Name of the Git token secret in the secret provider. Specifying a secret name for the Git Token automatically sets the authentication type to `pat`."
+  default     = ""
+}
 
 ##### END OF COMMON VARIABLES ############
 ##### START OF CI VARIABLES ##############
@@ -193,7 +252,7 @@ variable "ci_compliance_base_image" {
 
 variable "ci_authorization_policy_creation" {
   type        = string
-  description = "Disable Toolchain Service to Secrets Manager Service auhorization policy creation."
+  description = "Disable Toolchain Service to Secrets Manager Service authorization policy creation."
   default     = ""
 }
 
@@ -475,31 +534,31 @@ variable "ci_compliance_pipeline_group" {
 variable "ci_pipeline_config_repo_auth_type" {
   type        = string
   description = "Select the method of authentication that is used to access the Git provider. 'oauth' or 'pat'."
-  default     = "oauth"
+  default     = ""
 }
 
 variable "ci_inventory_repo_auth_type" {
   type        = string
   description = "Select the method of authentication that is used to access the Git provider. 'oauth' or 'pat'."
-  default     = "oauth"
+  default     = ""
 }
 
 variable "ci_issues_repo_auth_type" {
   type        = string
   description = "Select the method of authentication that is used to access the Git provider. 'oauth' or 'pat'."
-  default     = "oauth"
+  default     = ""
 }
 
 variable "ci_evidence_repo_auth_type" {
   type        = string
   description = "Select the method of authentication that is used to access the Git provider. 'oauth' or 'pat'."
-  default     = "oauth"
+  default     = ""
 }
 
 variable "ci_app_repo_auth_type" {
   type        = string
   description = "Select the method of authentication that is used to access the Git provider. 'oauth' or 'pat'."
-  default     = "oauth"
+  default     = ""
 }
 
 variable "ci_compliance_pipeline_repo_auth_type" {
@@ -521,25 +580,25 @@ variable "ci_pipeline_ibmcloud_api_key_secret_name" {
 variable "ci_cos_api_key_secret_name" {
   type        = string
   description = "Name of the COS API key secret in the secret provider."
-  default     = "cos-api-key"
+  default     = ""
 }
 
 variable "ci_issues_repo_git_token_secret_name" {
   type        = string
   description = "Name of the Git token secret in the secret provider."
-  default     = "git-token"
+  default     = ""
 }
 
 variable "ci_evidence_repo_git_token_secret_name" {
   type        = string
   description = "Name of the Git token secret in the secret provider."
-  default     = "git-token"
+  default     = ""
 }
 
 variable "ci_inventory_repo_git_token_secret_name" {
   type        = string
   description = "Name of the Git token secret in the secret provider."
-  default     = "git-token"
+  default     = ""
 }
 
 variable "ci_compliance_pipeline_repo_git_token_secret_name" {
@@ -551,19 +610,19 @@ variable "ci_compliance_pipeline_repo_git_token_secret_name" {
 variable "ci_pipeline_config_repo_git_token_secret_name" {
   type        = string
   description = "Name of the Git token secret in the secret provider."
-  default     = "git-token"
+  default     = ""
 }
 
 variable "ci_slack_webhook_secret_name" {
   type        = string
   description = "Name of the webhook secret in the secret provider."
-  default     = "slack-webhook"
+  default     = ""
 }
 
 variable "ci_app_repo_git_token_secret_name" {
   type        = string
   description = "Name of the Git token secret in the secret provider."
-  default     = "git-token"
+  default     = ""
 }
 
 variable "ci_signing_key_secret_name" {
@@ -574,7 +633,7 @@ variable "ci_signing_key_secret_name" {
 
 variable "ci_pipeline_dockerconfigjson_secret_name" {
   type        = string
-  description = "Name of the pipeline docker config json secret in the secret provider."
+  description = "Name of the pipeline docker config JSON secret in the secret provider."
   default     = "pipeline_dockerconfigjson_secret_name"
 }
 
@@ -618,8 +677,8 @@ variable "ci_app_version" {
 
 variable "ci_slack_notifications" {
   type        = string
-  description = "The switch that turns the Slack integration on or off."
-  default     = "0"
+  description = "The switch that turns the Slack notification on (`1`) or off (`0`)."
+  default     = ""
 }
 
 variable "ci_sonarqube_config" {
@@ -750,7 +809,7 @@ variable "cd_change_management_repo" {
 
 variable "cd_change_repo_clone_from_url" {
   type        = string
-  description = "Override the default management repo , which is cloned into the app repo. Note, using clone_if_not_exists mode, so if the app repo already exists the repo contents are unchanged."
+  description = "Override the default management repo, which is cloned into the app repo. Note, using clone_if_not_exists mode, so if the app repo already exists the repo contents are unchanged."
   default     = ""
 }
 
@@ -969,31 +1028,31 @@ variable "cd_compliance_pipeline_group" {
 variable "cd_pipeline_config_repo_auth_type" {
   type        = string
   description = "Select the method of authentication that is used to access the Git provider. 'oauth' or 'pat'."
-  default     = "oauth"
+  default     = ""
 }
 
 variable "cd_inventory_repo_auth_type" {
   type        = string
   description = "Select the method of authentication that is used to access the Git provider. 'oauth' or 'pat'."
-  default     = "oauth"
+  default     = ""
 }
 
 variable "cd_issues_repo_auth_type" {
   type        = string
   description = "Select the method of authentication that is used to access the Git provider. 'oauth' or 'pat'."
-  default     = "oauth"
+  default     = ""
 }
 
 variable "cd_evidence_repo_auth_type" {
   type        = string
   description = "Select the method of authentication that is used to access the Git provider. 'oauth' or 'pat'."
-  default     = "oauth"
+  default     = ""
 }
 
 variable "cd_deployment_repo_auth_type" {
   type        = string
   description = "Select the method of authentication that is used to access the Git provider. 'oauth' or 'pat'."
-  default     = "oauth"
+  default     = ""
 }
 
 variable "cd_compliance_pipeline_repo_auth_type" {
@@ -1005,7 +1064,7 @@ variable "cd_compliance_pipeline_repo_auth_type" {
 variable "cd_change_management_repo_auth_type" {
   type        = string
   description = "Select the method of authentication that is used to access the Git provider. 'oauth' or 'pat'."
-  default     = "oauth"
+  default     = ""
 }
 
 ######## End Repo auth type ######################
@@ -1021,25 +1080,25 @@ variable "cd_pipeline_ibmcloud_api_key_secret_name" {
 variable "cd_cos_api_key_secret_name" {
   type        = string
   description = "Name of the COS API key secret in the secret provider."
-  default     = "cos-api-key"
+  default     = ""
 }
 
 variable "cd_issues_repo_git_token_secret_name" {
   type        = string
   description = "Name of the Git token secret in the secret provider."
-  default     = "git-token"
+  default     = ""
 }
 
 variable "cd_evidence_repo_git_token_secret_name" {
   type        = string
   description = "Name of the Git token secret in the secret provider."
-  default     = "git-token"
+  default     = ""
 }
 
 variable "cd_inventory_repo_git_token_secret_name" {
   type        = string
   description = "Name of the Git token secret in the secret provider."
-  default     = "git-token"
+  default     = ""
 }
 
 variable "cd_compliance_pipeline_repo_git_token_secret_name" {
@@ -1051,19 +1110,19 @@ variable "cd_compliance_pipeline_repo_git_token_secret_name" {
 variable "cd_pipeline_config_repo_git_token_secret_name" {
   type        = string
   description = "Name of the Git token secret in the secret provider."
-  default     = "git-token"
+  default     = ""
 }
 
 variable "cd_deployment_repo_git_token_secret_name" {
   type        = string
   description = "Name of the Git token secret in the secret provider."
-  default     = "git-token"
+  default     = ""
 }
 
 variable "cd_change_management_repo_git_token_secret_name" {
   type        = string
   description = "Name of the Git token secret in the secret provider."
-  default     = "git-token"
+  default     = ""
 }
 
 variable "cd_code_signing_cert_secret_name" {
@@ -1093,7 +1152,7 @@ variable "cd_scc_enable_scc" {
 
 variable "cd_slack_notifications" {
   type        = string
-  description = "The switch to turn the Slack integration on or off."
+  description = "The switch that turns the Slack notification on (`1`) or off (`0`)."
   default     = "0"
 }
 
@@ -1180,7 +1239,7 @@ variable "cd_enable_signing_validation" {
 variable "cd_slack_webhook_secret_name" {
   type        = string
   description = "Name of the webhook secret in the secret provider."
-  default     = "slack-webhook"
+  default     = ""
 }
 
 variable "cd_enable_slack" {
@@ -1435,31 +1494,31 @@ variable "cc_compliance_pipeline_group" {
 variable "cc_pipeline_config_repo_auth_type" {
   type        = string
   description = "Select the method of authentication that is used to access the Git provider. 'oauth' or 'pat'."
-  default     = "oauth"
+  default     = ""
 }
 
 variable "cc_inventory_repo_auth_type" {
   type        = string
   description = "Select the method of authentication that is used to access the Git provider. 'oauth' or 'pat'."
-  default     = "oauth"
+  default     = ""
 }
 
 variable "cc_issues_repo_auth_type" {
   type        = string
   description = "Select the method of authentication that is used to access the Git provider. 'oauth' or 'pat'."
-  default     = "oauth"
+  default     = ""
 }
 
 variable "cc_evidence_repo_auth_type" {
   type        = string
   description = "Select the method of authentication that is used to access the Git provider. 'oauth' or 'pat'"
-  default     = "oauth"
+  default     = ""
 }
 
 variable "cc_app_repo_auth_type" {
   type        = string
   description = "Select the method of authentication that is used to access the Git provider. 'oauth' or 'pat'."
-  default     = "oauth"
+  default     = ""
 }
 
 variable "cc_compliance_pipeline_repo_auth_type" {
@@ -1481,25 +1540,25 @@ variable "cc_pipeline_ibmcloud_api_key_secret_name" {
 variable "cc_cos_api_key_secret_name" {
   type        = string
   description = "Name of the COS API key secret in the secret provider."
-  default     = "cos-api-key"
+  default     = ""
 }
 
 variable "cc_issues_repo_git_token_secret_name" {
   type        = string
   description = "Name of the Git token secret in the secret provider."
-  default     = "git-token"
+  default     = ""
 }
 
 variable "cc_evidence_repo_git_token_secret_name" {
   type        = string
   description = "Name of the Git token secret in the secret provider."
-  default     = "git-token"
+  default     = ""
 }
 
 variable "cc_inventory_repo_git_token_secret_name" {
   type        = string
   description = "Name of the Git token secret in the secret provider."
-  default     = "git-token"
+  default     = ""
 }
 
 variable "cc_compliance_pipeline_repo_git_token_secret_name" {
@@ -1522,7 +1581,7 @@ variable "cc_app_repo_git_token_secret_name" {
 
 variable "cc_pipeline_dockerconfigjson_secret_name" {
   type        = string
-  description = "Name of the pipeline docker config json secret in the secret provider."
+  description = "Name of the pipeline docker config JSON secret in the secret provider."
   default     = "pipeline_dockerconfigjson_secret_name"
 }
 
@@ -1546,8 +1605,8 @@ variable "cc_scc_enable_scc" {
 
 variable "cc_slack_notifications" {
   type        = string
-  description = "The switch that turns the Slack integration on or off."
-  default     = "0"
+  description = "The switch that turns the Slack notification on (`1`) or off (`0`)."
+  default     = ""
 }
 
 variable "cc_sonarqube_config" {
@@ -1561,7 +1620,7 @@ variable "cc_sonarqube_config" {
 variable "cc_slack_webhook_secret_name" {
   type        = string
   description = "Name of the webhook secret in the secret provider."
-  default     = "slack-webhook"
+  default     = ""
 }
 
 variable "cc_enable_slack" {
