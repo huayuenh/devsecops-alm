@@ -1921,7 +1921,7 @@
       "name": "cd_slack_notifications",
       "type": "string",
       "description": "The switch that turns the Slack notification on (`1`) or off (`0`).",
-      "default": "0",
+      "default": "",
       "pos": {
         "filename": "variables.tf",
         "line": 1153
@@ -4134,7 +4134,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 266
+        "line": 283
       }
     },
     "devsecops_cd_toolchain": {
@@ -4350,7 +4350,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 144
+        "line": 161
       }
     },
     "devsecops_ci_toolchain": {
@@ -4664,7 +4664,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 19
+        "line": 36
       }
     }
   }

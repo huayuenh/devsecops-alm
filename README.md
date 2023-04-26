@@ -221,7 +221,7 @@ No resources.
 | <a name="input_cd_scc_enable_scc"></a> [cd\_scc\_enable\_scc](#input\_cd\_scc\_enable\_scc) | Enable the SCC integration. | `bool` | `true` | no |
 | <a name="input_cd_scc_integration_name"></a> [cd\_scc\_integration\_name](#input\_cd\_scc\_integration\_name) | The name of the SCC integration. | `string` | `"Security and Compliance"` | no |
 | <a name="input_cd_slack_channel_name"></a> [cd\_slack\_channel\_name](#input\_cd\_slack\_channel\_name) | The Slack channel that notifications are posted to. | `string` | `"my-channel"` | no |
-| <a name="input_cd_slack_notifications"></a> [cd\_slack\_notifications](#input\_cd\_slack\_notifications) | The switch that turns the Slack notification on (`1`) or off (`0`). | `string` | `"0"` | no |
+| <a name="input_cd_slack_notifications"></a> [cd\_slack\_notifications](#input\_cd\_slack\_notifications) | The switch that turns the Slack notification on (`1`) or off (`0`). | `string` | `""` | no |
 | <a name="input_cd_slack_pipeline_fail"></a> [cd\_slack\_pipeline\_fail](#input\_cd\_slack\_pipeline\_fail) | Generate pipeline failed notifications. | `bool` | `true` | no |
 | <a name="input_cd_slack_pipeline_start"></a> [cd\_slack\_pipeline\_start](#input\_cd\_slack\_pipeline\_start) | Generate pipeline start notifications. | `bool` | `true` | no |
 | <a name="input_cd_slack_pipeline_success"></a> [cd\_slack\_pipeline\_success](#input\_cd\_slack\_pipeline\_success) | Generate pipeline succeeded notifications. | `bool` | `true` | no |

@@ -4,15 +4,32 @@
 # this could be addressed manually by ticking a setting in Schematics for each of the inputs
 locals {
   #setting all three toolchain specific parameters to false by default instead of null. If any of these values change then use the toolchain specific values.
-  use_sm_override                  = (var.ci_enable_secrets_manager == false) && (var.cd_enable_secrets_manager == false) && (var.cc_enable_secrets_manager == false) ? true : false
-  use_kp_override                  = (var.ci_enable_key_protect == false) && (var.cd_enable_key_protect == false) && (var.cc_enable_key_protect == false) ? true : false
-  use_slack_enable_override        = (var.ci_enable_slack == false) && (var.cd_enable_slack == false) && (var.cc_enable_slack == false) ? true : false
-  use_slack_notifications_override = (var.ci_slack_notifications == "") && (var.cd_slack_notifications == "") && (var.cc_slack_notifications == "") ? true : false
-  slack_notifications_status       = (local.use_slack_enable_override) && (local.use_slack_notifications_override) && (var.enable_slack) && (var.slack_notifications == "") ? "1" : var.slack_notifications
-  ci_slack_notification_status     = (var.ci_slack_notifications == "") ? local.slack_notifications_status : var.ci_slack_notifications
-  cd_slack_notification_status     = (var.cd_slack_notifications == "") ? local.slack_notifications_status : var.cd_slack_notifications
-  cc_slack_notification_status     = (var.cc_slack_notifications == "") ? local.slack_notifications_status : var.cc_slack_notifications
-  repo_auth_typo                   = (var.repo_git_token_secret_name == "") ? "oauth" : "pat"
+  use_sm_override           = (var.ci_enable_secrets_manager == false) && (var.cd_enable_secrets_manager == false) && (var.cc_enable_secrets_manager == false) ? true : false
+  use_kp_override           = (var.ci_enable_key_protect == false) && (var.cd_enable_key_protect == false) && (var.cc_enable_key_protect == false) ? true : false
+  use_slack_enable_override = (var.ci_enable_slack == false) && (var.cd_enable_slack == false) && (var.cc_enable_slack == false) ? true : false
+
+  ci_slack_notification_state = (
+    (var.ci_slack_notifications != "") ? var.ci_slack_notifications :
+    (var.slack_notifications != "") ? var.slack_notifications :
+    (local.use_slack_enable_override) && (var.enable_slack) ? "1" :
+    (var.ci_enable_slack) ? "1" : "0"
+  )
+
+  cd_slack_notification_state = (
+    (var.cd_slack_notifications != "") ? var.cd_slack_notifications :
+    (var.slack_notifications != "") ? var.slack_notifications :
+    (local.use_slack_enable_override) && (var.enable_slack) ? "1" :
+    (var.cd_enable_slack) ? "1" : "0"
+  )
+
+  cc_slack_notification_state = (
+    (var.cc_slack_notifications != "") ? var.cc_slack_notifications :
+    (var.slack_notifications != "") ? var.slack_notifications :
+    (local.use_slack_enable_override) && (var.enable_slack) ? "1" :
+    (var.cc_enable_slack) ? "1" : "0"
+  )
+
+  repo_auth_typo = (var.repo_git_token_secret_name == "") ? "oauth" : "pat"
 
 }
 
@@ -95,7 +112,7 @@ module "devsecops_ci_toolchain" {
   cra_generate_cyclonedx_format      = var.ci_cra_generate_cyclonedx_format
   custom_image_tag                   = var.ci_custom_image_tag
   app_version                        = var.ci_app_version
-  slack_notifications                = local.ci_slack_notification_status
+  slack_notifications                = local.ci_slack_notification_state
   sonarqube_config                   = var.ci_sonarqube_config
   enable_pipeline_dockerconfigjson   = var.ci_enable_pipeline_dockerconfigjson
 
@@ -222,7 +239,7 @@ module "devsecops_cd_toolchain" {
   scc_integration_name = var.cd_scc_integration_name
 
   #OTHER INTEGRATIONS
-  slack_notifications           = local.cd_slack_notification_status
+  slack_notifications           = local.cd_slack_notification_state
   cluster_name                  = var.cd_cluster_name
   cluster_namespace             = var.cd_cluster_namespace
   cluster_region                = var.cd_cluster_region
@@ -337,7 +354,7 @@ module "devsecops_cc_toolchain" {
   scc_integration_name = var.cc_scc_integration_name
 
   #OTHER INTEGRATIONS
-  slack_notifications              = local.cc_slack_notification_status
+  slack_notifications              = local.cc_slack_notification_state
   sonarqube_config                 = var.cc_sonarqube_config
   repositories_prefix              = var.cc_repositories_prefix
   doi_toolchain_id                 = try(module.devsecops_ci_toolchain[0].toolchain_id, var.cc_doi_toolchain_id)

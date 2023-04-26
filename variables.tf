@@ -1153,7 +1153,7 @@ variable "cd_scc_enable_scc" {
 variable "cd_slack_notifications" {
   type        = string
   description = "The switch that turns the Slack notification on (`1`) or off (`0`)."
-  default     = "0"
+  default     = ""
 }
 
 
