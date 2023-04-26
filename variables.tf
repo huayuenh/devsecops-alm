@@ -175,6 +175,11 @@ variable "repo_git_token_secret_name" {
   default     = ""
 }
 
+variable "toolchain_name" {
+  type        = string
+  description = "Common element of the toolchain name. The toolchain names will be appended with `CI Toolchain` or `CD Toolchain` or `CC Toolchain` followed by a timestamp. Can explicitly be set using `ci_toolchain_name`, `cd_toolchain_name`, and `cc_toolchain_name`."
+  default     = "DevSecOps"
+}
 ##### END OF COMMON VARIABLES ############
 ##### START OF CI VARIABLES ##############
 
@@ -187,7 +192,7 @@ variable "ci_toolchain_resource_group" {
 variable "ci_toolchain_name" {
   type        = string
   description = "The name of the CI Toolchain."
-  default     = "DevSecOps CI Toolchain - Terraform"
+  default     = ""
 }
 
 variable "ci_toolchain_region" {
@@ -768,7 +773,7 @@ variable "cd_toolchain_resource_group" {
 variable "cd_toolchain_name" {
   type        = string
   description = "The name of the CD Toolchain."
-  default     = "DevSecOps CD Toolchain - Terraform"
+  default     = ""
 }
 
 variable "cd_toolchain_region" {
@@ -1315,7 +1320,7 @@ variable "cc_toolchain_resource_group" {
 variable "cc_toolchain_name" {
   type        = string
   description = "The name of the CC Toolchain."
-  default     = "DevSecOps CC Toolchain - Terraform"
+  default     = ""
 }
 
 variable "cc_toolchain_region" {

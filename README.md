@@ -151,7 +151,7 @@ No resources.
 | <a name="input_cc_sm_secret_group"></a> [cc\_sm\_secret\_group](#input\_cc\_sm\_secret\_group) | Group in Secrets Manager for organizing/grouping secrets. | `string` | `""` | no |
 | <a name="input_cc_sonarqube_config"></a> [cc\_sonarqube\_config](#input\_cc\_sonarqube\_config) | Runs a SonarQube scan in an isolated Docker-in-Docker container (default configuration) or in an existing Kubernetes cluster (custom configuration). Options: default or custom. Default is default. | `string` | `"default"` | no |
 | <a name="input_cc_toolchain_description"></a> [cc\_toolchain\_description](#input\_cc\_toolchain\_description) | Description for the CC Toolchain. | `string` | `"Toolchain created with terraform template for DevSecOps CC Best Practices."` | no |
-| <a name="input_cc_toolchain_name"></a> [cc\_toolchain\_name](#input\_cc\_toolchain\_name) | The name of the CC Toolchain. | `string` | `"DevSecOps CC Toolchain - Terraform"` | no |
+| <a name="input_cc_toolchain_name"></a> [cc\_toolchain\_name](#input\_cc\_toolchain\_name) | The name of the CC Toolchain. | `string` | `""` | no |
 | <a name="input_cc_toolchain_region"></a> [cc\_toolchain\_region](#input\_cc\_toolchain\_region) | The region containing the CI toolchain. | `string` | `""` | no |
 | <a name="input_cc_toolchain_resource_group"></a> [cc\_toolchain\_resource\_group](#input\_cc\_toolchain\_resource\_group) | Resource group within which the toolchain is created. | `string` | `""` | no |
 | <a name="input_cd_app_version"></a> [cd\_app\_version](#input\_cd\_app\_version) | The version of the app to deploy. | `string` | `"v1"` | no |
@@ -238,7 +238,7 @@ No resources.
 | <a name="input_cd_target_environment_detail"></a> [cd\_target\_environment\_detail](#input\_cd\_target\_environment\_detail) | Details of the environment being updated. | `string` | `"Production target environment"` | no |
 | <a name="input_cd_target_environment_purpose"></a> [cd\_target\_environment\_purpose](#input\_cd\_target\_environment\_purpose) | Purpose of the environment being updated. | `string` | `"production"` | no |
 | <a name="input_cd_toolchain_description"></a> [cd\_toolchain\_description](#input\_cd\_toolchain\_description) | Description for the CD toolchain. | `string` | `"Toolchain created with terraform template for DevSecOps CD Best Practices."` | no |
-| <a name="input_cd_toolchain_name"></a> [cd\_toolchain\_name](#input\_cd\_toolchain\_name) | The name of the CD Toolchain. | `string` | `"DevSecOps CD Toolchain - Terraform"` | no |
+| <a name="input_cd_toolchain_name"></a> [cd\_toolchain\_name](#input\_cd\_toolchain\_name) | The name of the CD Toolchain. | `string` | `""` | no |
 | <a name="input_cd_toolchain_region"></a> [cd\_toolchain\_region](#input\_cd\_toolchain\_region) | The region containing the CI toolchain. | `string` | `""` | no |
 | <a name="input_cd_toolchain_resource_group"></a> [cd\_toolchain\_resource\_group](#input\_cd\_toolchain\_resource\_group) | Resource group within which toolchain is created. | `string` | `""` | no |
 | <a name="input_ci_app_group"></a> [ci\_app\_group](#input\_ci\_app\_group) | Specify Git user or group for your application. | `string` | `""` | no |
@@ -329,7 +329,7 @@ No resources.
 | <a name="input_ci_sm_secret_group"></a> [ci\_sm\_secret\_group](#input\_ci\_sm\_secret\_group) | Group in Secrets Manager for organizing/grouping secrets. | `string` | `""` | no |
 | <a name="input_ci_sonarqube_config"></a> [ci\_sonarqube\_config](#input\_ci\_sonarqube\_config) | Runs a SonarQube scan in an isolated Docker-in-Docker container (default configuration) or in an existing Kubernetes cluster (custom configuration). Options: default or custom. Default is default. | `string` | `"default"` | no |
 | <a name="input_ci_toolchain_description"></a> [ci\_toolchain\_description](#input\_ci\_toolchain\_description) | Description for the CI Toolchain. | `string` | `"Toolchain created with terraform template for DevSecOps CI Best Practices."` | no |
-| <a name="input_ci_toolchain_name"></a> [ci\_toolchain\_name](#input\_ci\_toolchain\_name) | The name of the CI Toolchain. | `string` | `"DevSecOps CI Toolchain - Terraform"` | no |
+| <a name="input_ci_toolchain_name"></a> [ci\_toolchain\_name](#input\_ci\_toolchain\_name) | The name of the CI Toolchain. | `string` | `""` | no |
 | <a name="input_ci_toolchain_region"></a> [ci\_toolchain\_region](#input\_ci\_toolchain\_region) | The region containing the CI toolchain. | `string` | `""` | no |
 | <a name="input_ci_toolchain_resource_group"></a> [ci\_toolchain\_resource\_group](#input\_ci\_toolchain\_resource\_group) | The resource group within which the toolchain is created. | `string` | `""` | no |
 | <a name="input_cos_api_key_secret_name"></a> [cos\_api\_key\_secret\_name](#input\_cos\_api\_key\_secret\_name) | To enable the use of COS, a secret name to a COS API key secret in the secret provider is required. In addition `cos_endpoint` and `cos_bucket_name` must be set. | `string` | `"cos-api-key"` | no |
@@ -360,6 +360,7 @@ No resources.
 | <a name="input_sm_name"></a> [sm\_name](#input\_sm\_name) | The name of the Secret Managers instance. | `string` | `"sm-instance"` | no |
 | <a name="input_sm_resource_group"></a> [sm\_resource\_group](#input\_sm\_resource\_group) | The resource group containing the Secrets Manager instance. | `string` | `"Default"` | no |
 | <a name="input_sm_secret_group"></a> [sm\_secret\_group](#input\_sm\_secret\_group) | Group in Secrets Manager for organizing/grouping secrets. | `string` | `"Default"` | no |
+| <a name="input_toolchain_name"></a> [toolchain\_name](#input\_toolchain\_name) | Common element of the toolchain name. The toolchain names will be appended with `CI Toolchain` or `CD Toolchain` or `CC Toolchain` followed by a timestamp. Can explicitly be set using `ci_toolchain_name`, `cd_toolchain_name`, and `cc_toolchain_name`. | `string` | `"DevSecOps"` | no |
 | <a name="input_toolchain_region"></a> [toolchain\_region](#input\_toolchain\_region) | IBM Cloud region where your toolchain is created. | `string` | `"us-south"` | no |
 | <a name="input_toolchain_resource_group"></a> [toolchain\_resource\_group](#input\_toolchain\_resource\_group) | The resource group within which the toolchain is created. | `string` | `"Default"` | no |
 
