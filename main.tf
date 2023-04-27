@@ -29,8 +29,11 @@ locals {
     (var.cc_enable_slack) ? "1" : "0"
   )
 
-  repo_auth_typo = (var.repo_git_token_secret_name == "") ? "oauth" : "pat"
-  toolchain_time = formatdate("YYYYMMDDhhmmss", timestamp())
+  repo_auth_typo               = (var.repo_git_token_secret_name == "") ? "oauth" : "pat"
+  toolchain_time               = formatdate("YYYYMMDDhhmmss", timestamp())
+  calculated_ci_cluster_region = (var.ci_dev_region != "") ? var.ci_dev_region : (var.ci_cluster_region != "") ? var.ci_cluster_region : var.toolchain_region
+  calculated_sm_region         = (var.sm_location != "") ? replace(replace(var.sm_location, "ibm:yp:", ""), "ibm:ys1:", "") : var.toolchain_region
+  calculated_kp_region         = (var.kp_location != "") ? replace(replace(var.kp_location, "ibm:yp:", ""), "ibm:ys1:", "") : var.toolchain_region
 }
 
 module "devsecops_ci_toolchain" {
@@ -38,7 +41,7 @@ module "devsecops_ci_toolchain" {
   source                   = "git::https://github.com/terraform-ibm-modules/terraform-ibm-devsecops-ci-toolchain?ref=v1.0.5"
   ibmcloud_api_key         = var.ibmcloud_api_key
   toolchain_name           = (var.ci_toolchain_name == "") ? format("${var.toolchain_name} %s", format("CI Toolchain - %s", local.toolchain_time)) : var.ci_toolchain_name
-  toolchain_region         = (var.ci_toolchain_region == "") ? var.toolchain_region : var.ci_toolchain_region
+  toolchain_region         = (var.ci_toolchain_region == "") ? var.toolchain_region : replace(replace(var.ci_toolchain_region, "ibm:yp:", ""), "ibm:ys1:", "")
   toolchain_resource_group = (var.ci_toolchain_resource_group == "") ? var.toolchain_resource_group : var.ci_toolchain_resource_group
   toolchain_description    = var.ci_toolchain_description
   registry_namespace       = var.ci_registry_namespace
@@ -49,12 +52,12 @@ module "devsecops_ci_toolchain" {
   enable_key_protect     = (local.use_kp_override) ? var.enable_key_protect : var.ci_enable_key_protect
   enable_secrets_manager = (local.use_sm_override) ? var.enable_secrets_manager : var.ci_enable_secrets_manager
   sm_name                = (var.ci_sm_name == "") ? var.sm_name : var.ci_sm_name
-  sm_location            = (var.ci_sm_location == "") ? var.sm_location : var.ci_sm_location
-  sm_resource_group      = (var.ci_sm_resource_group == "") ? var.sm_resource_group : var.ci_sm_resource_group
+  sm_location            = (var.ci_sm_location == "") ? local.calculated_sm_region : replace(replace(var.ci_sm_location, "ibm:yp:", ""), "ibm:ys1:", "")
+  sm_resource_group      = (var.ci_sm_resource_group != "") ? var.ci_sm_resource_group : (var.sm_resource_group != "") ? var.sm_resource_group : var.toolchain_resource_group
   sm_secret_group        = (var.ci_sm_secret_group == "") ? var.sm_secret_group : var.ci_sm_secret_group
   kp_name                = (var.ci_kp_name == "") ? var.kp_name : var.ci_kp_name
-  kp_location            = (var.ci_kp_location == "") ? var.kp_location : var.ci_kp_location
-  kp_resource_group      = (var.ci_kp_resource_group == "") ? var.kp_resource_group : var.ci_kp_resource_group
+  kp_location            = (var.ci_kp_location == "") ? local.calculated_kp_region : replace(replace(var.ci_kp_location, "ibm:yp:", ""), "ibm:ys1:", "")
+  kp_resource_group      = (var.ci_kp_resource_group != "") ? var.ci_kp_resource_group : (var.kp_resource_group != "") ? var.kp_resource_group : var.toolchain_resource_group
 
   #SECRET NAMES
   pipeline_ibmcloud_api_key_secret_name          = var.ci_pipeline_ibmcloud_api_key_secret_name
@@ -92,11 +95,11 @@ module "devsecops_ci_toolchain" {
   compliance_pipeline_group = var.ci_compliance_pipeline_group
 
   app_name                           = var.ci_app_name
-  dev_region                         = var.ci_dev_region
-  dev_resource_group                 = var.ci_dev_resource_group
+  dev_region                         = format("${var.environment_prefix}%s", replace(replace(local.calculated_ci_cluster_region, "ibm:yp:", ""), "ibm:ys1:", ""))
+  dev_resource_group                 = (var.ci_cluster_resource_group != "") ? var.ci_cluster_resource_group : (var.ci_dev_resource_group != "") ? var.ci_dev_resource_group : var.toolchain_resource_group
   cluster_name                       = var.ci_cluster_name
   cluster_namespace                  = var.ci_cluster_namespace
-  registry_region                    = var.ci_registry_region
+  registry_region                    = (var.ci_registry_region == "") ? format("${var.environment_prefix}%s", var.toolchain_region) : format("${var.environment_prefix}%s", replace(replace(var.ci_registry_region, "ibm:yp:", ""), "ibm:ys1:", ""))
   authorization_policy_creation      = (var.ci_authorization_policy_creation == "") ? var.authorization_policy_creation : var.ci_authorization_policy_creation
   repositories_prefix                = var.ci_repositories_prefix
   doi_toolchain_id                   = var.ci_doi_toolchain_id
@@ -164,7 +167,7 @@ module "devsecops_cd_toolchain" {
 
   toolchain_name           = (var.cd_toolchain_name == "") ? format("${var.toolchain_name} %s", format("CD Toolchain - %s", local.toolchain_time)) : var.cd_toolchain_name
   toolchain_description    = var.cd_toolchain_description
-  toolchain_region         = (var.cd_toolchain_region == "") ? var.toolchain_region : var.cd_toolchain_region
+  toolchain_region         = (var.cd_toolchain_region == "") ? var.toolchain_region : replace(replace(var.cd_toolchain_region, "ibm:yp:", ""), "ibm:ys1:", "")
   toolchain_resource_group = (var.cd_toolchain_resource_group == "") ? var.toolchain_resource_group : var.cd_toolchain_resource_group
   ibmcloud_api             = var.ibmcloud_api
   compliance_base_image    = var.cd_compliance_base_image
@@ -173,12 +176,12 @@ module "devsecops_cd_toolchain" {
   enable_key_protect     = (local.use_kp_override) ? var.enable_key_protect : var.cd_enable_key_protect
   enable_secrets_manager = (local.use_sm_override) ? var.enable_secrets_manager : var.cd_enable_secrets_manager
   sm_name                = (var.cd_sm_name == "") ? var.sm_name : var.cd_sm_name
-  sm_location            = (var.cd_sm_location == "") ? var.sm_location : var.cd_sm_location
-  sm_resource_group      = (var.cd_sm_resource_group == "") ? var.sm_resource_group : var.cd_sm_resource_group
+  sm_location            = (var.cd_sm_location == "") ? local.calculated_sm_region : replace(replace(var.cd_sm_location, "ibm:yp:", ""), "ibm:ys1:", "")
+  sm_resource_group      = (var.cd_sm_resource_group != "") ? var.cd_sm_resource_group : (var.sm_resource_group != "") ? var.sm_resource_group : var.toolchain_resource_group
   sm_secret_group        = (var.cd_sm_secret_group == "") ? var.sm_secret_group : var.cd_sm_secret_group
   kp_name                = (var.cd_kp_name == "") ? var.kp_name : var.cd_kp_name
-  kp_location            = (var.cd_kp_location == "") ? var.kp_location : var.cd_kp_location
-  kp_resource_group      = (var.cd_kp_resource_group == "") ? var.kp_resource_group : var.cd_kp_resource_group
+  kp_location            = (var.cd_kp_location == "") ? local.calculated_kp_region : replace(replace(var.cd_kp_location, "ibm:yp:", ""), "ibm:ys1:", "")
+  kp_resource_group      = (var.cd_kp_resource_group != "") ? var.cd_kp_resource_group : (var.kp_resource_group != "") ? var.kp_resource_group : var.toolchain_resource_group
 
   #SECRET NAMES
   pipeline_ibmcloud_api_key_secret_name          = var.cd_pipeline_ibmcloud_api_key_secret_name
@@ -241,7 +244,7 @@ module "devsecops_cd_toolchain" {
   slack_notifications           = local.cd_slack_notification_state
   cluster_name                  = var.cd_cluster_name
   cluster_namespace             = var.cd_cluster_namespace
-  cluster_region                = var.cd_cluster_region
+  cluster_region                = (var.cd_cluster_region == "") ? format("${var.environment_prefix}%s", var.toolchain_region) : format("${var.environment_prefix}%s", replace(replace(var.cd_cluster_region, "ibm:yp:", ""), "ibm:ys1:", ""))
   repositories_prefix           = var.cd_repositories_prefix
   authorization_policy_creation = (var.cd_authorization_policy_creation == "") ? var.authorization_policy_creation : var.cd_authorization_policy_creation
   doi_environment               = var.cd_doi_environment
@@ -285,7 +288,7 @@ module "devsecops_cc_toolchain" {
   ibmcloud_api_key              = var.ibmcloud_api_key
   toolchain_name                = (var.cc_toolchain_name == "") ? format("${var.toolchain_name} %s", format("CC Toolchain - %s", local.toolchain_time)) : var.cc_toolchain_name
   toolchain_description         = var.cc_toolchain_description
-  toolchain_region              = (var.cc_toolchain_region == "") ? var.toolchain_region : var.cc_toolchain_region
+  toolchain_region              = (var.cc_toolchain_region == "") ? var.toolchain_region : replace(replace(var.cc_toolchain_region, "ibm:yp:", ""), "ibm:ys1:", "")
   toolchain_resource_group      = (var.cc_toolchain_resource_group == "") ? var.toolchain_resource_group : var.cc_toolchain_resource_group
   ibmcloud_api                  = var.ibmcloud_api
   compliance_base_image         = var.cc_compliance_base_image
@@ -295,12 +298,12 @@ module "devsecops_cc_toolchain" {
   enable_key_protect     = (local.use_kp_override) ? var.enable_key_protect : var.cc_enable_key_protect
   enable_secrets_manager = (local.use_sm_override) ? var.enable_secrets_manager : var.cc_enable_secrets_manager
   sm_name                = (var.cc_sm_name == "") ? var.sm_name : var.cc_sm_name
-  sm_location            = (var.cc_sm_location == "") ? var.sm_location : var.cc_sm_location
-  sm_resource_group      = (var.cc_sm_resource_group == "") ? var.sm_resource_group : var.cc_sm_resource_group
+  sm_location            = (var.cc_sm_location == "") ? local.calculated_sm_region : replace(replace(var.cc_sm_location, "ibm:yp:", ""), "ibm:ys1:", "")
+  sm_resource_group      = (var.cc_sm_resource_group != "") ? var.cc_sm_resource_group : (var.sm_resource_group != "") ? var.sm_resource_group : var.toolchain_resource_group
   sm_secret_group        = (var.cc_sm_secret_group == "") ? var.sm_secret_group : var.cc_sm_secret_group
   kp_name                = (var.cc_kp_name == "") ? var.kp_name : var.cc_kp_name
-  kp_location            = (var.cc_kp_location == "") ? var.kp_location : var.cc_kp_location
-  kp_resource_group      = (var.cc_kp_resource_group == "") ? var.kp_resource_group : var.cc_kp_resource_group
+  kp_location            = (var.cc_sm_location == "") ? local.calculated_kp_region : replace(replace(var.cc_kp_location, "ibm:yp:", ""), "ibm:ys1:", "")
+  kp_resource_group      = (var.cc_kp_resource_group != "") ? var.cc_kp_resource_group : (var.kp_resource_group != "") ? var.kp_resource_group : var.toolchain_resource_group
 
   #SECRET NAMES
   pipeline_ibmcloud_api_key_secret_name          = var.cc_pipeline_ibmcloud_api_key_secret_name

@@ -152,7 +152,7 @@ No resources.
 | <a name="input_cc_sonarqube_config"></a> [cc\_sonarqube\_config](#input\_cc\_sonarqube\_config) | Runs a SonarQube scan in an isolated Docker-in-Docker container (default configuration) or in an existing Kubernetes cluster (custom configuration). Options: default or custom. Default is default. | `string` | `"default"` | no |
 | <a name="input_cc_toolchain_description"></a> [cc\_toolchain\_description](#input\_cc\_toolchain\_description) | Description for the CC Toolchain. | `string` | `"Toolchain created with terraform template for DevSecOps CC Best Practices."` | no |
 | <a name="input_cc_toolchain_name"></a> [cc\_toolchain\_name](#input\_cc\_toolchain\_name) | The name of the CC Toolchain. | `string` | `""` | no |
-| <a name="input_cc_toolchain_region"></a> [cc\_toolchain\_region](#input\_cc\_toolchain\_region) | The region containing the CI toolchain. | `string` | `""` | no |
+| <a name="input_cc_toolchain_region"></a> [cc\_toolchain\_region](#input\_cc\_toolchain\_region) | The region containing the CI toolchain. Use the short form of the regions. For example `us-south`. | `string` | `""` | no |
 | <a name="input_cc_toolchain_resource_group"></a> [cc\_toolchain\_resource\_group](#input\_cc\_toolchain\_resource\_group) | Resource group within which the toolchain is created. | `string` | `""` | no |
 | <a name="input_cd_app_version"></a> [cd\_app\_version](#input\_cd\_app\_version) | The version of the app to deploy. | `string` | `"v1"` | no |
 | <a name="input_cd_authorization_policy_creation"></a> [cd\_authorization\_policy\_creation](#input\_cd\_authorization\_policy\_creation) | Disable Toolchain service to Secrets Manager Service authorization policy creation. | `string` | `""` | no |
@@ -164,7 +164,7 @@ No resources.
 | <a name="input_cd_change_request_id"></a> [cd\_change\_request\_id](#input\_cd\_change\_request\_id) | The ID of an open change request. If this parameter is set to 'notAvailable' by default, a change request is automatically created by the continuous deployment pipeline. | `string` | `"notAvailable"` | no |
 | <a name="input_cd_cluster_name"></a> [cd\_cluster\_name](#input\_cd\_cluster\_name) | Name of the Kubernetes cluster where the application is deployed. | `string` | `"mycluster-free"` | no |
 | <a name="input_cd_cluster_namespace"></a> [cd\_cluster\_namespace](#input\_cd\_cluster\_namespace) | Name of the Kubernetes cluster namespace where the application is deployed. | `string` | `"prod"` | no |
-| <a name="input_cd_cluster_region"></a> [cd\_cluster\_region](#input\_cd\_cluster\_region) | Region of the Kubernetes cluster where the application is deployed. | `string` | `"ibm:yp:us-south"` | no |
+| <a name="input_cd_cluster_region"></a> [cd\_cluster\_region](#input\_cd\_cluster\_region) | Region of the Kubernetes cluster where the application is deployed. Use the short form of the regions. For example `us-south`. | `string` | `""` | no |
 | <a name="input_cd_code_signing_cert_secret_name"></a> [cd\_code\_signing\_cert\_secret\_name](#input\_cd\_code\_signing\_cert\_secret\_name) | Name of the code signing certificate secret in the secret provider. | `string` | `"code-signing-cert"` | no |
 | <a name="input_cd_compliance_base_image"></a> [cd\_compliance\_base\_image](#input\_cd\_compliance\_base\_image) | Pipeline baseimage to run most of the built-in pipeline code. | `string` | `""` | no |
 | <a name="input_cd_compliance_pipeline_group"></a> [cd\_compliance\_pipeline\_group](#input\_cd\_compliance\_pipeline\_group) | Specify user or group for compliance pipline repo. | `string` | `""` | no |
@@ -239,7 +239,7 @@ No resources.
 | <a name="input_cd_target_environment_purpose"></a> [cd\_target\_environment\_purpose](#input\_cd\_target\_environment\_purpose) | Purpose of the environment being updated. | `string` | `"production"` | no |
 | <a name="input_cd_toolchain_description"></a> [cd\_toolchain\_description](#input\_cd\_toolchain\_description) | Description for the CD toolchain. | `string` | `"Toolchain created with terraform template for DevSecOps CD Best Practices."` | no |
 | <a name="input_cd_toolchain_name"></a> [cd\_toolchain\_name](#input\_cd\_toolchain\_name) | The name of the CD Toolchain. | `string` | `""` | no |
-| <a name="input_cd_toolchain_region"></a> [cd\_toolchain\_region](#input\_cd\_toolchain\_region) | The region containing the CI toolchain. | `string` | `""` | no |
+| <a name="input_cd_toolchain_region"></a> [cd\_toolchain\_region](#input\_cd\_toolchain\_region) | The region containing the CI toolchain. Use the short form of the regions. For example `us-south`. | `string` | `""` | no |
 | <a name="input_cd_toolchain_resource_group"></a> [cd\_toolchain\_resource\_group](#input\_cd\_toolchain\_resource\_group) | Resource group within which toolchain is created. | `string` | `""` | no |
 | <a name="input_ci_app_group"></a> [ci\_app\_group](#input\_ci\_app\_group) | Specify Git user or group for your application. | `string` | `""` | no |
 | <a name="input_ci_app_name"></a> [ci\_app\_name](#input\_ci\_app\_name) | Name of the application image and inventory entry. | `string` | `"hello-compliance-app"` | no |
@@ -257,6 +257,8 @@ No resources.
 | <a name="input_ci_authorization_policy_creation"></a> [ci\_authorization\_policy\_creation](#input\_ci\_authorization\_policy\_creation) | Disable Toolchain Service to Secrets Manager Service authorization policy creation. | `string` | `""` | no |
 | <a name="input_ci_cluster_name"></a> [ci\_cluster\_name](#input\_ci\_cluster\_name) | Name of the Kubernetes cluster where the application is deployed. (can be the same cluster used for prod) | `string` | `"mycluster-free"` | no |
 | <a name="input_ci_cluster_namespace"></a> [ci\_cluster\_namespace](#input\_ci\_cluster\_namespace) | Name of the Kubernetes cluster namespace where the application is deployed. | `string` | `"dev"` | no |
+| <a name="input_ci_cluster_region"></a> [ci\_cluster\_region](#input\_ci\_cluster\_region) | Region of the Kubernetes cluster where the application is deployed. Use the short form of the regions. For example `us-south`. | `string` | `""` | no |
+| <a name="input_ci_cluster_resource_group"></a> [ci\_cluster\_resource\_group](#input\_ci\_cluster\_resource\_group) | The cluster resource group. | `string` | `""` | no |
 | <a name="input_ci_code_engine_build_strategy"></a> [ci\_code\_engine\_build\_strategy](#input\_ci\_code\_engine\_build\_strategy) | The build strategy for the Code Engine entity. Default strategy is 'dockerfile'. Set as 'buildpacks' for 'buildpacks' build. | `string` | `""` | no |
 | <a name="input_ci_code_engine_entity_type"></a> [ci\_code\_engine\_entity\_type](#input\_ci\_code\_engine\_entity\_type) | Type of Code Engine entity to create/update as part of deployment. Default type is 'application'. Set as 'job' for 'job' type. | `string` | `""` | no |
 | <a name="input_ci_code_engine_project"></a> [ci\_code\_engine\_project](#input\_ci\_code\_engine\_project) | The name of the Code Engine project to use (or create). | `string` | `"DevSecOps_CE"` | no |
@@ -273,8 +275,8 @@ No resources.
 | <a name="input_ci_cra_generate_cyclonedx_format"></a> [ci\_cra\_generate\_cyclonedx\_format](#input\_ci\_cra\_generate\_cyclonedx\_format) | If set to 1, CRA also generates the BOM in cyclonedx format (defaults to 1). | `string` | `"1"` | no |
 | <a name="input_ci_custom_image_tag"></a> [ci\_custom\_image\_tag](#input\_ci\_custom\_image\_tag) | The custom tag for the image in a comma-separated list. | `string` | `""` | no |
 | <a name="input_ci_deployment_target"></a> [ci\_deployment\_target](#input\_ci\_deployment\_target) | The deployment target, cluster or code-engine. | `string` | `"cluster"` | no |
-| <a name="input_ci_dev_region"></a> [ci\_dev\_region](#input\_ci\_dev\_region) | Region of the Kubernetes cluster where the application is deployed. | `string` | `"ibm:yp:us-south"` | no |
-| <a name="input_ci_dev_resource_group"></a> [ci\_dev\_resource\_group](#input\_ci\_dev\_resource\_group) | The cluster resource group. | `string` | `"Default"` | no |
+| <a name="input_ci_dev_region"></a> [ci\_dev\_region](#input\_ci\_dev\_region) | (Deprecated. Use `ci_cluster_region`) Region of the Kubernetes cluster where the application is deployed. Use the short form of the regions. For example `us-south` | `string` | `""` | no |
+| <a name="input_ci_dev_resource_group"></a> [ci\_dev\_resource\_group](#input\_ci\_dev\_resource\_group) | (Deprecated. Use `ci_cluster_resource_group`) The cluster resource group. | `string` | `""` | no |
 | <a name="input_ci_doi_environment"></a> [ci\_doi\_environment](#input\_ci\_doi\_environment) | The DevOps Insights target environment. | `string` | `""` | no |
 | <a name="input_ci_doi_toolchain_id"></a> [ci\_doi\_toolchain\_id](#input\_ci\_doi\_toolchain\_id) | DevOps Insights toolchain ID to link to. | `string` | `""` | no |
 | <a name="input_ci_doi_toolchain_id_pipeline_property"></a> [ci\_doi\_toolchain\_id\_pipeline\_property](#input\_ci\_doi\_toolchain\_id\_pipeline\_property) | The DevOps Insights instance toolchain ID. | `string` | `""` | no |
@@ -311,7 +313,7 @@ No resources.
 | <a name="input_ci_pipeline_dockerconfigjson_secret_name"></a> [ci\_pipeline\_dockerconfigjson\_secret\_name](#input\_ci\_pipeline\_dockerconfigjson\_secret\_name) | Name of the pipeline docker config JSON secret in the secret provider. | `string` | `"pipeline_dockerconfigjson_secret_name"` | no |
 | <a name="input_ci_pipeline_ibmcloud_api_key_secret_name"></a> [ci\_pipeline\_ibmcloud\_api\_key\_secret\_name](#input\_ci\_pipeline\_ibmcloud\_api\_key\_secret\_name) | Name of the Cloud API key secret in the secret provider. | `string` | `"ibmcloud-api-key"` | no |
 | <a name="input_ci_registry_namespace"></a> [ci\_registry\_namespace](#input\_ci\_registry\_namespace) | A unique namespace within the IBM Cloud Container Registry region where the application image is stored. | `string` | `""` | no |
-| <a name="input_ci_registry_region"></a> [ci\_registry\_region](#input\_ci\_registry\_region) | The IBM Cloud Region where the IBM Cloud Container Registry namespace is to be created. | `string` | `"ibm:yp:us-south"` | no |
+| <a name="input_ci_registry_region"></a> [ci\_registry\_region](#input\_ci\_registry\_region) | The IBM Cloud Region where the IBM Cloud Container Registry namespace is to be created. Use the short form of the regions. For example `us-south`. | `string` | `""` | no |
 | <a name="input_ci_repositories_prefix"></a> [ci\_repositories\_prefix](#input\_ci\_repositories\_prefix) | Prefix name for the cloned compliance repos. | `string` | `"compliance"` | no |
 | <a name="input_ci_signing_key_secret_name"></a> [ci\_signing\_key\_secret\_name](#input\_ci\_signing\_key\_secret\_name) | Name of the signing key secret in the secret provider. | `string` | `"signing_key"` | no |
 | <a name="input_ci_slack_channel_name"></a> [ci\_slack\_channel\_name](#input\_ci\_slack\_channel\_name) | The Slack channel that notifications are posted to. | `string` | `"my-channel"` | no |
@@ -319,7 +321,7 @@ No resources.
 | <a name="input_ci_slack_pipeline_fail"></a> [ci\_slack\_pipeline\_fail](#input\_ci\_slack\_pipeline\_fail) | Generate pipeline failed notifications. | `bool` | `true` | no |
 | <a name="input_ci_slack_pipeline_start"></a> [ci\_slack\_pipeline\_start](#input\_ci\_slack\_pipeline\_start) | Generate pipeline start notifications. | `bool` | `true` | no |
 | <a name="input_ci_slack_pipeline_success"></a> [ci\_slack\_pipeline\_success](#input\_ci\_slack\_pipeline\_success) | Generate pipeline succeeded notifications. | `bool` | `true` | no |
-| <a name="input_ci_slack_team_name"></a> [ci\_slack\_team\_name](#input\_ci\_slack\_team\_name) | The Slack team name, which is the word or phrase before .slack.com in the team URL. | `string` | `"my-team"` | no |
+| <a name="input_ci_slack_team_name"></a> [ci\_slack\_team\_name](#input\_ci\_slack\_team\_name) | The Slack team name, which is the word or phrase before `.slack.com` in the team URL. | `string` | `"my-team"` | no |
 | <a name="input_ci_slack_toolchain_bind"></a> [ci\_slack\_toolchain\_bind](#input\_ci\_slack\_toolchain\_bind) | Generate tool added to toolchain notifications. | `bool` | `true` | no |
 | <a name="input_ci_slack_toolchain_unbind"></a> [ci\_slack\_toolchain\_unbind](#input\_ci\_slack\_toolchain\_unbind) | Generate tool removed from toolchain notifications. | `bool` | `true` | no |
 | <a name="input_ci_slack_webhook_secret_name"></a> [ci\_slack\_webhook\_secret\_name](#input\_ci\_slack\_webhook\_secret\_name) | Name of the webhook secret in the secret provider. | `string` | `""` | no |
@@ -330,7 +332,7 @@ No resources.
 | <a name="input_ci_sonarqube_config"></a> [ci\_sonarqube\_config](#input\_ci\_sonarqube\_config) | Runs a SonarQube scan in an isolated Docker-in-Docker container (default configuration) or in an existing Kubernetes cluster (custom configuration). Options: default or custom. Default is default. | `string` | `"default"` | no |
 | <a name="input_ci_toolchain_description"></a> [ci\_toolchain\_description](#input\_ci\_toolchain\_description) | Description for the CI Toolchain. | `string` | `"Toolchain created with terraform template for DevSecOps CI Best Practices."` | no |
 | <a name="input_ci_toolchain_name"></a> [ci\_toolchain\_name](#input\_ci\_toolchain\_name) | The name of the CI Toolchain. | `string` | `""` | no |
-| <a name="input_ci_toolchain_region"></a> [ci\_toolchain\_region](#input\_ci\_toolchain\_region) | The region containing the CI toolchain. | `string` | `""` | no |
+| <a name="input_ci_toolchain_region"></a> [ci\_toolchain\_region](#input\_ci\_toolchain\_region) | The region containing the CI toolchain. Use the short form of the regions. For example `us-south`. | `string` | `""` | no |
 | <a name="input_ci_toolchain_resource_group"></a> [ci\_toolchain\_resource\_group](#input\_ci\_toolchain\_resource\_group) | The resource group within which the toolchain is created. | `string` | `""` | no |
 | <a name="input_cos_api_key_secret_name"></a> [cos\_api\_key\_secret\_name](#input\_cos\_api\_key\_secret\_name) | To enable the use of COS, a secret name to a COS API key secret in the secret provider is required. In addition `cos_endpoint` and `cos_bucket_name` must be set. | `string` | `"cos-api-key"` | no |
 | <a name="input_cos_bucket_name"></a> [cos\_bucket\_name](#input\_cos\_bucket\_name) | Set the name of your COS bucket. | `string` | `""` | no |
@@ -342,6 +344,7 @@ No resources.
 | <a name="input_enable_key_protect"></a> [enable\_key\_protect](#input\_enable\_key\_protect) | Set to enable Key Protect Integrations. | `bool` | `false` | no |
 | <a name="input_enable_secrets_manager"></a> [enable\_secrets\_manager](#input\_enable\_secrets\_manager) | Enable the Secrets Manager integrations. | `bool` | `true` | no |
 | <a name="input_enable_slack"></a> [enable\_slack](#input\_enable\_slack) | Set to `true` to create the integration. This requires a valid `slack_channel_name`, `slack_team_name`, and a valid `webhook` (see `slack_webhook_secret_name`). | `bool` | `false` | no |
+| <a name="input_environment_prefix"></a> [environment\_prefix](#input\_environment\_prefix) | By default `ibm:yp:`. This will be set as the prefix to regions automatically where required. For example `ibm:yp:us-south`. | `string` | `"ibm:yp:"` | no |
 | <a name="input_evidence_repo_url"></a> [evidence\_repo\_url](#input\_evidence\_repo\_url) | This is a template repository to clone compliance-evidence-locker for reference DevSecOps toolchain templates. | `string` | `""` | no |
 | <a name="input_ibmcloud_api"></a> [ibmcloud\_api](#input\_ibmcloud\_api) | IBM Cloud API Endpoint. | `string` | `"https://cloud.ibm.com"` | no |
 | <a name="input_ibmcloud_api_key"></a> [ibmcloud\_api\_key](#input\_ibmcloud\_api\_key) | API key used to create the toolchains. (See deployment guide.) | `string` | n/a | yes |
@@ -361,7 +364,7 @@ No resources.
 | <a name="input_sm_resource_group"></a> [sm\_resource\_group](#input\_sm\_resource\_group) | The resource group containing the Secrets Manager instance. | `string` | `"Default"` | no |
 | <a name="input_sm_secret_group"></a> [sm\_secret\_group](#input\_sm\_secret\_group) | Group in Secrets Manager for organizing/grouping secrets. | `string` | `"Default"` | no |
 | <a name="input_toolchain_name"></a> [toolchain\_name](#input\_toolchain\_name) | Common element of the toolchain name. The toolchain names will be appended with `CI Toolchain` or `CD Toolchain` or `CC Toolchain` followed by a timestamp. Can explicitly be set using `ci_toolchain_name`, `cd_toolchain_name`, and `cc_toolchain_name`. | `string` | `"DevSecOps"` | no |
-| <a name="input_toolchain_region"></a> [toolchain\_region](#input\_toolchain\_region) | IBM Cloud region where your toolchain is created. | `string` | `"us-south"` | no |
+| <a name="input_toolchain_region"></a> [toolchain\_region](#input\_toolchain\_region) | The region identifier that will be used, by default, for all resource creation and service instance lookup. This can be overridden on a per resource/service basis. See `ci_toolchain_region`,`cd_toolchain_region`,`cc_toolchain_region`, `ci_cluster_region`, `cd_cluster_region`, `ci_registry_region` | `string` | `"us-south"` | no |
 | <a name="input_toolchain_resource_group"></a> [toolchain\_resource\_group](#input\_toolchain\_resource\_group) | The resource group within which the toolchain is created. | `string` | `"Default"` | no |
 
 ## Outputs

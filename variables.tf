@@ -13,7 +13,7 @@ variable "ibmcloud_api" {
 
 variable "toolchain_region" {
   type        = string
-  description = "IBM Cloud region where your toolchain is created."
+  description = "The region identifier that will be used, by default, for all resource creation and service instance lookup. This can be overridden on a per resource/service basis. See `ci_toolchain_region`,`cd_toolchain_region`,`cc_toolchain_region`, `ci_cluster_region`, `cd_cluster_region`, `ci_registry_region` "
   default     = "us-south"
 }
 
@@ -180,6 +180,13 @@ variable "toolchain_name" {
   description = "Common element of the toolchain name. The toolchain names will be appended with `CI Toolchain` or `CD Toolchain` or `CC Toolchain` followed by a timestamp. Can explicitly be set using `ci_toolchain_name`, `cd_toolchain_name`, and `cc_toolchain_name`."
   default     = "DevSecOps"
 }
+
+variable "environment_prefix" {
+  type        = string
+  description = "By default `ibm:yp:`. This will be set as the prefix to regions automatically where required. For example `ibm:yp:us-south`."
+  default     = "ibm:yp:"
+}
+
 ##### END OF COMMON VARIABLES ############
 ##### START OF CI VARIABLES ##############
 
@@ -197,7 +204,7 @@ variable "ci_toolchain_name" {
 
 variable "ci_toolchain_region" {
   type        = string
-  description = "The region containing the CI toolchain."
+  description = "The region containing the CI toolchain. Use the short form of the regions. For example `us-south`."
   default     = ""
 }
 
@@ -227,14 +234,26 @@ variable "ci_cluster_namespace" {
 
 variable "ci_dev_region" {
   type        = string
-  description = "Region of the Kubernetes cluster where the application is deployed."
-  default     = "ibm:yp:us-south"
+  description = "(Deprecated. Use `ci_cluster_region`) Region of the Kubernetes cluster where the application is deployed. Use the short form of the regions. For example `us-south`"
+  default     = ""
+}
+
+variable "ci_cluster_region" {
+  type        = string
+  description = "Region of the Kubernetes cluster where the application is deployed. Use the short form of the regions. For example `us-south`."
+  default     = ""
 }
 
 variable "ci_dev_resource_group" {
   type        = string
+  description = "(Deprecated. Use `ci_cluster_resource_group`) The cluster resource group."
+  default     = ""
+}
+
+variable "ci_cluster_resource_group" {
+  type        = string
   description = "The cluster resource group."
-  default     = "Default"
+  default     = ""
 }
 
 variable "ci_registry_namespace" {
@@ -245,8 +264,8 @@ variable "ci_registry_namespace" {
 
 variable "ci_registry_region" {
   type        = string
-  description = "The IBM Cloud Region where the IBM Cloud Container Registry namespace is to be created."
-  default     = "ibm:yp:us-south"
+  description = "The IBM Cloud Region where the IBM Cloud Container Registry namespace is to be created. Use the short form of the regions. For example `us-south`."
+  default     = ""
 }
 
 variable "ci_compliance_base_image" {
@@ -714,7 +733,7 @@ variable "ci_slack_channel_name" {
 
 variable "ci_slack_team_name" {
   type        = string
-  description = "The Slack team name, which is the word or phrase before .slack.com in the team URL."
+  description = "The Slack team name, which is the word or phrase before `.slack.com` in the team URL."
   default     = "my-team"
 }
 
@@ -778,7 +797,7 @@ variable "cd_toolchain_name" {
 
 variable "cd_toolchain_region" {
   type        = string
-  description = "The region containing the CI toolchain."
+  description = "The region containing the CI toolchain. Use the short form of the regions. For example `us-south`."
   default     = ""
 }
 
@@ -802,8 +821,8 @@ variable "cd_cluster_namespace" {
 
 variable "cd_cluster_region" {
   type        = string
-  description = "Region of the Kubernetes cluster where the application is deployed."
-  default     = "ibm:yp:us-south"
+  description = "Region of the Kubernetes cluster where the application is deployed. Use the short form of the regions. For example `us-south`."
+  default     = ""
 }
 
 variable "cd_change_management_repo" {
@@ -1325,7 +1344,7 @@ variable "cc_toolchain_name" {
 
 variable "cc_toolchain_region" {
   type        = string
-  description = "The region containing the CI toolchain."
+  description = "The region containing the CI toolchain. Use the short form of the regions. For example `us-south`."
   default     = ""
 }
 
