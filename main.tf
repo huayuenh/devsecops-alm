@@ -97,7 +97,7 @@ module "devsecops_ci_toolchain" {
   app_name                           = var.ci_app_name
   dev_region                         = format("${var.environment_prefix}%s", replace(replace(local.calculated_ci_cluster_region, "ibm:yp:", ""), "ibm:ys1:", ""))
   dev_resource_group                 = (var.ci_cluster_resource_group != "") ? var.ci_cluster_resource_group : (var.ci_dev_resource_group != "") ? var.ci_dev_resource_group : var.toolchain_resource_group
-  cluster_name                       = var.ci_cluster_name
+  cluster_name                       = (var.ci_cluster_name == "") ? var.cluster_name : var.ci_cluster_name
   cluster_namespace                  = var.ci_cluster_namespace
   registry_region                    = (var.ci_registry_region == "") ? format("${var.environment_prefix}%s", var.toolchain_region) : format("${var.environment_prefix}%s", replace(replace(var.ci_registry_region, "ibm:yp:", ""), "ibm:ys1:", ""))
   authorization_policy_creation      = (var.ci_authorization_policy_creation == "") ? var.authorization_policy_creation : var.ci_authorization_policy_creation
@@ -242,7 +242,7 @@ module "devsecops_cd_toolchain" {
 
   #OTHER INTEGRATIONS
   slack_notifications           = local.cd_slack_notification_state
-  cluster_name                  = var.cd_cluster_name
+  cluster_name                  = (var.cd_cluster_name == "") ? var.cluster_name : var.cd_cluster_name
   cluster_namespace             = var.cd_cluster_namespace
   cluster_region                = (var.cd_cluster_region == "") ? format("${var.environment_prefix}%s", var.toolchain_region) : format("${var.environment_prefix}%s", replace(replace(var.cd_cluster_region, "ibm:yp:", ""), "ibm:ys1:", ""))
   repositories_prefix           = var.cd_repositories_prefix

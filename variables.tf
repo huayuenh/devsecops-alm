@@ -13,13 +13,13 @@ variable "ibmcloud_api" {
 
 variable "toolchain_region" {
   type        = string
-  description = "The region identifier that will be used, by default, for all resource creation and service instance lookup. This can be overridden on a per resource/service basis. See `ci_toolchain_region`,`cd_toolchain_region`,`cc_toolchain_region`, `ci_cluster_region`, `cd_cluster_region`, `ci_registry_region` "
+  description = "The region identifier that will be used, by default, for all resource creation and service instance lookup. This can be overridden on a per resource/service basis. See `ci_toolchain_region`,`cd_toolchain_region`,`cc_toolchain_region`, `ci_cluster_region`, `cd_cluster_region`, `ci_registry_region`, `sm_location`."
   default     = "us-south"
 }
 
 variable "cos_api_key_secret_name" {
   type        = string
-  description = "To enable the use of COS, a secret name to a COS API key secret in the secret provider is required. In addition `cos_endpoint` and `cos_bucket_name` must be set."
+  description = "To enable the use of COS, a secret name to a COS API key secret in the secret provider is required. In addition `cos_endpoint` and `cos_bucket_name` must be set. This setting sets the same API key for the COS settings in the CI, CD, and CC toolchains. See `ci_cos_api_key_secret_name`, `cd_cos_api_key_secret_name`, and `cc_cos_api_key_secret_name` to set separately."
   default     = "cos-api-key"
 }
 
@@ -57,43 +57,43 @@ variable "ibmcloud_api_key" {
 #SECRET PROVIDERS
 variable "sm_location" {
   type        = string
-  description = "The region location of the Secrets Manager instance."
+  description = "The region location of the Secrets Manager instance. This applies to the CI, CD and CC Secret Manager integrations. See `ci_sm_location`, `cd_sm_location`, and `cc_sm_location` to set separately."
   default     = "us-south"
 }
 
 variable "sm_name" {
   type        = string
-  description = "The name of the Secret Managers instance."
+  description = "The name of the Secret Managers instance. This applies to the CI, CD and CC Secret Manager integrations. See `ci_sm_name`, `cd_sm_name`, and `cc_sm_name` to set separately. "
   default     = "sm-instance"
 }
 
 variable "sm_resource_group" {
   type        = string
-  description = "The resource group containing the Secrets Manager instance."
+  description = "The resource group containing the Secrets Manager instance. This applies to the CI, CD and CC Secret Manager integrations. See `ci_sm_resource_group`, `cd_sm_resource_group`, and `cc_sm_resource_group` to set separately."
   default     = "Default"
 }
 
 variable "sm_secret_group" {
   type        = string
-  description = "Group in Secrets Manager for organizing/grouping secrets."
+  description = "Group in Secrets Manager for organizing/grouping secrets. This applies to the CI, CD and CC Secret Manager integrations. See `ci_sm_secret_group`, `cd_sm_secret_group`, and `cc_sm_secret_group` to set separately."
   default     = "Default"
 }
 
 variable "kp_resource_group" {
   type        = string
-  description = "The resource group containing the Key Protect instance for your secrets."
+  description = "The resource group containing the Key Protect instance. This applies to the CI, CD and CC Key Protect integrations. See `ci_kp_resource_group`, `cd_kp_resource_group`, and `cc_kp_resource_group` to set separately."
   default     = "Default"
 }
 
 variable "kp_name" {
   type        = string
-  description = "Name of the Key Protect instance where the secrets are stored."
+  description = "Name of the Key Protect instance where the secrets are stored. This applies to the CI, CD and CC Key Protect integrations. See `ci_kp_name`, `cd_kp_name`, and `cc_kp_name` to set separately."
   default     = "kp-compliance-secrets"
 }
 
 variable "kp_location" {
   type        = string
-  description = "IBM Cloud location/region containing the Key Protect instance."
+  description = "The region location of the Key Protect instance. This applies to the CI, CD and CC Key Protect integrations. See `ci_kp_location`, `cd_kp_location`, and `cc_kp_location` to set separately."
   default     = "us-south"
 }
 
@@ -117,49 +117,49 @@ variable "toolchain_resource_group" {
 
 variable "cos_endpoint" {
   type        = string
-  description = "Set the Cloud Object Storage endpoint for accessing your COS bucket."
+  description = "Set the Cloud Object Storage endpoint for accessing your COS bucket. This setting sets the same endpoint for COS in the CI, CD, and CC toolchains. See `ci_cos_endpoint`, `cd_cos_endpoint`, and `cc_cos_endpoint` to set the endpoints separately."
   default     = ""
 }
 
 variable "cos_bucket_name" {
   type        = string
-  description = "Set the name of your COS bucket."
+  description = "Set the name of your COS bucket. This applies the same COS bucket name for the CI, CD, and CC toolchains. See `ci_cos_bucket_name`, `cd_cos_bucket_name`, and `cc_cos_bucket_name` to set separately."
   default     = ""
 }
 
 variable "enable_slack" {
   type        = bool
-  description = "Set to `true` to create the integration. This requires a valid `slack_channel_name`, `slack_team_name`, and a valid `webhook` (see `slack_webhook_secret_name`)."
+  description = "Set to `true` to create the integration. This requires a valid `slack_channel_name`, `slack_team_name`, and a valid `webhook` (see `slack_webhook_secret_name`). This setting applies for CI, CD, and CC toolchains. To enable Slack separately, see `ci_enable_slack`, `cd_enable_slack`, and `cc_enable_slack`."
   default     = false
 }
 
 variable "slack_channel_name" {
   type        = string
-  description = "The Slack channel that notifications are posted to."
+  description = "The Slack channel that notifications are posted to. This applies to the CI, CD, and CC toolchains. To set separately see `ci_slack_channel_name`, `cd_slack_channel_name`, and `cc_slack_channel_name`"
   default     = "my-channel"
 }
 
 variable "slack_team_name" {
   type        = string
-  description = "The Slack team name, which is the word or phrase before .slack.com in the team URL."
+  description = "The Slack team name, which is the word or phrase before `.slack.com` in the team URL. This applies to the CI, CD, and CC toolchains. To set separately, see `ci_slack_team_name`, `cd_slack_team_name`, and `cc_slack_team_name`."
   default     = "my-team"
 }
 
 variable "slack_webhook_secret_name" {
   type        = string
-  description = "Name of the webhook secret in the secret provider."
+  description = "Name of the webhook secret for Slack in the secret provider. This applies to the CI, CD, and CC toolchains. To set separately, see `ci_slack_webhook_secret_name`, `cd_slack_webhook_secret_name`, and `cc_slack_webhook_secret_name`"
   default     = "slack-webhook"
 }
 
 variable "authorization_policy_creation" {
   type        = string
-  description = "Disable Toolchain Service to Secrets Manager Service authorization policy creation. To disable set the value to `disabled`."
+  description = "Disable Toolchain Service to Secrets Manager Service authorization policy creation. To disable set the value to `disabled`. This applies to the CI, CD, and CC toolchains. To set separately, see `ci_authorization_policy_creation`, `cd_authorization_policy_creation`, and `cc_authorization_policy_creation`."
   default     = ""
 }
 
 variable "slack_notifications" {
   type        = string
-  description = "The switch that turns the Slack notification on (`1`) or off (`0`)."
+  description = "This is enabled automatically when a Slack integration is created. The switch overrides the Slack notifications. Set `1` for on and `0` for off. This applies to the CI, CD, and CC toolchains. To set separately, see `ci_slack_notifications`, `cd_slack_notifications`, and `cc_slack_notifications`."
   default     = ""
 }
 
@@ -185,6 +185,12 @@ variable "environment_prefix" {
   type        = string
   description = "By default `ibm:yp:`. This will be set as the prefix to regions automatically where required. For example `ibm:yp:us-south`."
   default     = "ibm:yp:"
+}
+
+variable "cluster_name" {
+  type        = string
+  description = "Name of the Kubernetes cluster where the application is deployed. This sets the same cluster for both CI and CD toolchains. See `ci_cluster_name` and `cd_cluster_name` to set different clusters. By default , the cluster namespace for CI will be set to `dev` and CD to `prod`. These can be changed using `ci_cluster_namespace` and `cd_cluster_namespace`."
+  default     = "mycluster-free"
 }
 
 ##### END OF COMMON VARIABLES ############
@@ -223,7 +229,7 @@ variable "ci_app_name" {
 variable "ci_cluster_name" {
   type        = string
   description = "Name of the Kubernetes cluster where the application is deployed. (can be the same cluster used for prod)"
-  default     = "mycluster-free"
+  default     = ""
 }
 
 variable "ci_cluster_namespace" {
@@ -810,7 +816,7 @@ variable "cd_toolchain_description" {
 variable "cd_cluster_name" {
   type        = string
   description = "Name of the Kubernetes cluster where the application is deployed."
-  default     = "mycluster-free"
+  default     = ""
 }
 
 variable "cd_cluster_namespace" {
