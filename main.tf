@@ -32,8 +32,6 @@ locals {
   repo_auth_typo               = (var.repo_git_token_secret_name == "") ? "oauth" : "pat"
   toolchain_time               = formatdate("YYYYMMDDhhmmss", timestamp())
   calculated_ci_cluster_region = (var.ci_dev_region != "") ? var.ci_dev_region : (var.ci_cluster_region != "") ? var.ci_cluster_region : var.toolchain_region
-  calculated_sm_region         = (var.sm_location != "") ? replace(replace(var.sm_location, "ibm:yp:", ""), "ibm:ys1:", "") : var.toolchain_region
-  calculated_kp_region         = (var.kp_location != "") ? replace(replace(var.kp_location, "ibm:yp:", ""), "ibm:ys1:", "") : var.toolchain_region
 }
 
 module "devsecops_ci_toolchain" {
@@ -52,11 +50,11 @@ module "devsecops_ci_toolchain" {
   enable_key_protect     = (local.use_kp_override) ? var.enable_key_protect : var.ci_enable_key_protect
   enable_secrets_manager = (local.use_sm_override) ? var.enable_secrets_manager : var.ci_enable_secrets_manager
   sm_name                = (var.ci_sm_name == "") ? var.sm_name : var.ci_sm_name
-  sm_location            = (var.ci_sm_location == "") ? local.calculated_sm_region : replace(replace(var.ci_sm_location, "ibm:yp:", ""), "ibm:ys1:", "")
+  sm_location            = (var.ci_sm_location == "") ? replace(replace(var.sm_location, "ibm:yp:", ""), "ibm:ys1:", "") : replace(replace(var.ci_sm_location, "ibm:yp:", ""), "ibm:ys1:", "")
   sm_resource_group      = (var.ci_sm_resource_group != "") ? var.ci_sm_resource_group : (var.sm_resource_group != "") ? var.sm_resource_group : var.toolchain_resource_group
   sm_secret_group        = (var.ci_sm_secret_group == "") ? var.sm_secret_group : var.ci_sm_secret_group
   kp_name                = (var.ci_kp_name == "") ? var.kp_name : var.ci_kp_name
-  kp_location            = (var.ci_kp_location == "") ? local.calculated_kp_region : replace(replace(var.ci_kp_location, "ibm:yp:", ""), "ibm:ys1:", "")
+  kp_location            = (var.ci_kp_location == "") ? replace(replace(var.kp_location, "ibm:yp:", ""), "ibm:ys1:", "") : replace(replace(var.ci_kp_location, "ibm:yp:", ""), "ibm:ys1:", "")
   kp_resource_group      = (var.ci_kp_resource_group != "") ? var.ci_kp_resource_group : (var.kp_resource_group != "") ? var.kp_resource_group : var.toolchain_resource_group
 
   #SECRET NAMES
@@ -176,11 +174,11 @@ module "devsecops_cd_toolchain" {
   enable_key_protect     = (local.use_kp_override) ? var.enable_key_protect : var.cd_enable_key_protect
   enable_secrets_manager = (local.use_sm_override) ? var.enable_secrets_manager : var.cd_enable_secrets_manager
   sm_name                = (var.cd_sm_name == "") ? var.sm_name : var.cd_sm_name
-  sm_location            = (var.cd_sm_location == "") ? local.calculated_sm_region : replace(replace(var.cd_sm_location, "ibm:yp:", ""), "ibm:ys1:", "")
+  sm_location            = (var.cd_sm_location == "") ? replace(replace(var.sm_location, "ibm:yp:", ""), "ibm:ys1:", "") : replace(replace(var.cd_sm_location, "ibm:yp:", ""), "ibm:ys1:", "")
   sm_resource_group      = (var.cd_sm_resource_group != "") ? var.cd_sm_resource_group : (var.sm_resource_group != "") ? var.sm_resource_group : var.toolchain_resource_group
   sm_secret_group        = (var.cd_sm_secret_group == "") ? var.sm_secret_group : var.cd_sm_secret_group
   kp_name                = (var.cd_kp_name == "") ? var.kp_name : var.cd_kp_name
-  kp_location            = (var.cd_kp_location == "") ? local.calculated_kp_region : replace(replace(var.cd_kp_location, "ibm:yp:", ""), "ibm:ys1:", "")
+  kp_location            = (var.cd_kp_location == "") ? replace(replace(var.kp_location, "ibm:yp:", ""), "ibm:ys1:", "") : replace(replace(var.cd_kp_location, "ibm:yp:", ""), "ibm:ys1:", "")
   kp_resource_group      = (var.cd_kp_resource_group != "") ? var.cd_kp_resource_group : (var.kp_resource_group != "") ? var.kp_resource_group : var.toolchain_resource_group
 
   #SECRET NAMES
@@ -298,11 +296,11 @@ module "devsecops_cc_toolchain" {
   enable_key_protect     = (local.use_kp_override) ? var.enable_key_protect : var.cc_enable_key_protect
   enable_secrets_manager = (local.use_sm_override) ? var.enable_secrets_manager : var.cc_enable_secrets_manager
   sm_name                = (var.cc_sm_name == "") ? var.sm_name : var.cc_sm_name
-  sm_location            = (var.cc_sm_location == "") ? local.calculated_sm_region : replace(replace(var.cc_sm_location, "ibm:yp:", ""), "ibm:ys1:", "")
+  sm_location            = (var.cc_sm_location == "") ? replace(replace(var.sm_location, "ibm:yp:", ""), "ibm:ys1:", "") : replace(replace(var.cc_sm_location, "ibm:yp:", ""), "ibm:ys1:", "")
   sm_resource_group      = (var.cc_sm_resource_group != "") ? var.cc_sm_resource_group : (var.sm_resource_group != "") ? var.sm_resource_group : var.toolchain_resource_group
   sm_secret_group        = (var.cc_sm_secret_group == "") ? var.sm_secret_group : var.cc_sm_secret_group
   kp_name                = (var.cc_kp_name == "") ? var.kp_name : var.cc_kp_name
-  kp_location            = (var.cc_sm_location == "") ? local.calculated_kp_region : replace(replace(var.cc_kp_location, "ibm:yp:", ""), "ibm:ys1:", "")
+  kp_location            = (var.cc_sm_location == "") ? replace(replace(var.kp_location, "ibm:yp:", ""), "ibm:ys1:", "") : replace(replace(var.cc_kp_location, "ibm:yp:", ""), "ibm:ys1:", "")
   kp_resource_group      = (var.cc_kp_resource_group != "") ? var.cc_kp_resource_group : (var.kp_resource_group != "") ? var.kp_resource_group : var.toolchain_resource_group
 
   #SECRET NAMES
