@@ -274,7 +274,7 @@ variable "ci_cluster_resource_group" {
   default     = ""
 }
 
-variable "ci_registry_namespace" {
+variable "registry_namespace" {
   type        = string
   description = "A unique namespace within the IBM Cloud Container Registry region where the application image is stored."
   default     = ""
