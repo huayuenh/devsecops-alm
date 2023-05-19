@@ -207,6 +207,18 @@
 							"description": "Set the Cloud Object Storage endpoint for accessing your COS bucket. This setting sets the same endpoint for COS in the CI, CD, and CC toolchains. See `ci_cos_endpoint`, `cd_cos_endpoint`, and `cc_cos_endpoint` to set the endpoints separately."
 						},
 						{
+							"key": "repo_git_token_secret_name",
+							"type": "string",
+							"default_value": "",
+							"description": "Name of the Git token secret in the secret provider. Specifying a secret name for the Git Token automatically sets the authentication type to `pat`."
+						},
+						{
+							"key": "repo_group",
+							"type": "string",
+							"default_value": "",
+							"description": "Specify Git user or group for your application. This must be set if the repository authentication type is `pat` (personal access token)."
+						},
+						{
 							"key": "enable_slack",
 							"type": "boolean",
 							"default_value": false,
@@ -283,18 +295,6 @@
 							"type": "string",
 							"default_value": "",
 							"description": "This is a template repository to clone compliance-evidence-locker for reference DevSecOps toolchain templates."
-						},
-						{
-							"key": "repo_git_token_secret_name",
-							"type": "string",
-							"default_value": "",
-							"description": "Name of the Git token secret in the secret provider. Specifying a secret name for the Git Token automatically sets the authentication type to `pat`."
-						},
-						{
-							"key": "repo_group",
-							"type": "string",
-							"default_value": "",
-							"description": "Specify Git user or group for your application. This must be set if the repository authentication type is `pat` (personal access token)."
 						},
 						{
 							"key": "compliance_base_image",
@@ -1257,6 +1257,12 @@
 							"description": "Name of the Cloud API key secret in the secret provider."
 						},
 						{
+							"key": "cd_region",
+							"type": "string",
+							"default_value": "",
+							"description": "IBM Cloud region used to prefix the `prod_latest` inventory repo branch."
+						},
+						{
 							"key": "cd_repositories_prefix",
 							"type": "string",
 							"default_value": "",
@@ -1445,7 +1451,7 @@
 						{
 							"key": "cc_app_repo_git_token_secret_name",
 							"type": "string",
-							"default_value": "git-token",
+							"default_value": "",
 							"description": "Name of the Git token secret in the secret provider."
 						},
 						{
@@ -1685,7 +1691,7 @@
 						{
 							"key": "cc_pipeline_config_repo_git_token_secret_name",
 							"type": "string",
-							"default_value": "git-token",
+							"default_value": "",
 							"description": "Name of the Git token secret in the secret provider."
 						},
 						{
