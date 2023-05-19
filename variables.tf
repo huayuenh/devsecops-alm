@@ -843,6 +843,12 @@ variable "cd_cluster_region" {
   default     = ""
 }
 
+variable "cd_region" {
+  type        = string
+  description = "IBM Cloud region used to prefix the `prod_latest` inventory repo branch."
+  default     = ""
+}
+
 variable "cd_change_management_repo" {
   type        = string
   description = "This repository holds the change management requests created for the deployments."
@@ -1612,13 +1618,13 @@ variable "cc_compliance_pipeline_repo_git_token_secret_name" {
 variable "cc_pipeline_config_repo_git_token_secret_name" {
   type        = string
   description = "Name of the Git token secret in the secret provider."
-  default     = "git-token"
+  default     = ""
 }
 
 variable "cc_app_repo_git_token_secret_name" {
   type        = string
   description = "Name of the Git token secret in the secret provider."
-  default     = "git-token"
+  default     = ""
 }
 
 variable "cc_pipeline_dockerconfigjson_secret_name" {

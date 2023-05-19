@@ -29,14 +29,14 @@ locals {
     (var.cc_enable_slack) ? "1" : "0"
   )
 
-  repo_auth_typo               = (var.repo_git_token_secret_name == "") ? "oauth" : "pat"
+  repo_auth_type               = (var.repo_git_token_secret_name == "") ? "oauth" : "pat"
   toolchain_ts                 = formatdate("YYYYMMDDhhmmss", timestamp())
   calculated_ci_cluster_region = (var.ci_dev_region != "") ? var.ci_dev_region : (var.ci_cluster_region != "") ? var.ci_cluster_region : var.toolchain_region
 }
 
 module "devsecops_ci_toolchain" {
   count                    = var.create_ci_toolchain ? 1 : 0
-  source                   = "git::https://github.com/terraform-ibm-modules/terraform-ibm-devsecops-ci-toolchain?ref=v1.0.6-beta.1"
+  source                   = "git::https://github.com/terraform-ibm-modules/terraform-ibm-devsecops-ci-toolchain?ref=v1.0.6-beta.2"
   ibmcloud_api_key         = var.ibmcloud_api_key
   toolchain_name           = (var.ci_toolchain_name == "") ? format("${var.toolchain_name} %s", format("CI Toolchain - %s", local.toolchain_ts)) : var.ci_toolchain_name
   toolchain_region         = (var.ci_toolchain_region == "") ? var.toolchain_region : replace(replace(var.ci_toolchain_region, "ibm:yp:", ""), "ibm:ys1:", "")
@@ -71,11 +71,11 @@ module "devsecops_ci_toolchain" {
   pipeline_dockerconfigjson_secret_name          = var.ci_pipeline_dockerconfigjson_secret_name
 
   #AUTH TYPE FOR REPOS
-  pipeline_config_repo_auth_type     = (var.ci_pipeline_config_repo_auth_type == "") ? local.repo_auth_typo : var.ci_pipeline_config_repo_auth_type
-  inventory_repo_auth_type           = (var.ci_inventory_repo_auth_type == "") ? local.repo_auth_typo : var.ci_inventory_repo_auth_type
-  issues_repo_auth_type              = (var.ci_issues_repo_auth_type == "") ? local.repo_auth_typo : var.ci_issues_repo_auth_type
-  evidence_repo_auth_type            = (var.ci_evidence_repo_auth_type == "") ? local.repo_auth_typo : var.ci_evidence_repo_auth_type
-  app_repo_auth_type                 = (var.ci_app_repo_auth_type == "") ? local.repo_auth_typo : var.ci_app_repo_auth_type
+  pipeline_config_repo_auth_type     = (var.ci_pipeline_config_repo_auth_type == "") ? local.repo_auth_type : var.ci_pipeline_config_repo_auth_type
+  inventory_repo_auth_type           = (var.ci_inventory_repo_auth_type == "") ? local.repo_auth_type : var.ci_inventory_repo_auth_type
+  issues_repo_auth_type              = (var.ci_issues_repo_auth_type == "") ? local.repo_auth_type : var.ci_issues_repo_auth_type
+  evidence_repo_auth_type            = (var.ci_evidence_repo_auth_type == "") ? local.repo_auth_type : var.ci_evidence_repo_auth_type
+  app_repo_auth_type                 = (var.ci_app_repo_auth_type == "") ? local.repo_auth_type : var.ci_app_repo_auth_type
   compliance_pipeline_repo_auth_type = var.ci_compliance_pipeline_repo_auth_type
 
   #PIPELINE CONFIG REPO
@@ -160,7 +160,7 @@ module "devsecops_ci_toolchain" {
 
 module "devsecops_cd_toolchain" {
   count            = var.create_cd_toolchain ? 1 : 0
-  source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-devsecops-cd-toolchain?ref=v1.0.6-beta.1"
+  source           = "git::https://github.com/terraform-ibm-modules/terraform-ibm-devsecops-cd-toolchain?ref=v1.0.6-beta.2"
   ibmcloud_api_key = var.ibmcloud_api_key
 
   toolchain_name           = (var.cd_toolchain_name == "") ? format("${var.toolchain_name} %s", format("CD Toolchain - %s", local.toolchain_ts)) : var.cd_toolchain_name
@@ -195,13 +195,13 @@ module "devsecops_cd_toolchain" {
   code_signing_cert_secret_name                  = var.cd_code_signing_cert_secret_name
 
   #AUTH TYPE FOR REPOS
-  pipeline_config_repo_auth_type     = (var.cd_pipeline_config_repo_auth_type == "") ? local.repo_auth_typo : var.cd_pipeline_config_repo_auth_type
-  inventory_repo_auth_type           = (var.cd_inventory_repo_auth_type == "") ? local.repo_auth_typo : var.cd_inventory_repo_auth_type
-  issues_repo_auth_type              = (var.cd_issues_repo_auth_type == "") ? local.repo_auth_typo : var.cd_issues_repo_auth_type
-  evidence_repo_auth_type            = (var.cd_evidence_repo_auth_type == "") ? local.repo_auth_typo : var.cd_evidence_repo_auth_type
-  deployment_repo_auth_type          = (var.cd_deployment_repo_auth_type == "") ? local.repo_auth_typo : var.cd_deployment_repo_auth_type
+  pipeline_config_repo_auth_type     = (var.cd_pipeline_config_repo_auth_type == "") ? local.repo_auth_type : var.cd_pipeline_config_repo_auth_type
+  inventory_repo_auth_type           = (var.cd_inventory_repo_auth_type == "") ? local.repo_auth_type : var.cd_inventory_repo_auth_type
+  issues_repo_auth_type              = (var.cd_issues_repo_auth_type == "") ? local.repo_auth_type : var.cd_issues_repo_auth_type
+  evidence_repo_auth_type            = (var.cd_evidence_repo_auth_type == "") ? local.repo_auth_type : var.cd_evidence_repo_auth_type
+  deployment_repo_auth_type          = (var.cd_deployment_repo_auth_type == "") ? local.repo_auth_type : var.cd_deployment_repo_auth_type
   compliance_pipeline_repo_auth_type = var.cd_compliance_pipeline_repo_auth_type
-  change_management_repo_auth_type   = (var.cd_change_management_repo_auth_type == "") ? local.repo_auth_typo : var.cd_change_management_repo_auth_type
+  change_management_repo_auth_type   = (var.cd_change_management_repo_auth_type == "") ? local.repo_auth_type : var.cd_change_management_repo_auth_type
 
   #PIPELINE CONFIG REPO
   pipeline_config_repo_existing_url   = var.cd_pipeline_config_repo_existing_url
@@ -261,6 +261,7 @@ module "devsecops_cd_toolchain" {
   app_version                   = var.cd_app_version
   pipeline_debug                = var.cd_pipeline_debug
   enable_signing_validation     = var.cd_enable_signing_validation
+  region                        = var.cd_region
 
   #SLACK INTEGRATION
   enable_slack           = (local.use_slack_enable_override) ? var.enable_slack : var.cd_enable_slack
@@ -282,7 +283,7 @@ module "devsecops_cd_toolchain" {
 
 module "devsecops_cc_toolchain" {
   count                         = var.create_cc_toolchain ? 1 : 0
-  source                        = "git::https://github.com/terraform-ibm-modules/terraform-ibm-devsecops-cc-toolchain?ref=v1.0.6-beta.1"
+  source                        = "git::https://github.com/terraform-ibm-modules/terraform-ibm-devsecops-cc-toolchain?ref=v1.0.6-beta.2"
   ibmcloud_api_key              = var.ibmcloud_api_key
   toolchain_name                = (var.cc_toolchain_name == "") ? format("${var.toolchain_name} %s", format("CC Toolchain - %s", local.toolchain_ts)) : var.cc_toolchain_name
   toolchain_description         = var.cc_toolchain_description
@@ -310,17 +311,17 @@ module "devsecops_cc_toolchain" {
   evidence_repo_git_token_secret_name            = (var.cc_evidence_repo_git_token_secret_name == "") ? var.repo_git_token_secret_name : var.cc_evidence_repo_git_token_secret_name
   inventory_repo_git_token_secret_name           = (var.cc_inventory_repo_git_token_secret_name == "") ? var.repo_git_token_secret_name : var.cc_inventory_repo_git_token_secret_name
   compliance_pipeline_repo_git_token_secret_name = var.cc_compliance_pipeline_repo_git_token_secret_name
-  pipeline_config_repo_git_token_secret_name     = (var.ci_pipeline_config_repo_git_token_secret_name == "") ? var.repo_git_token_secret_name : var.cc_pipeline_config_repo_git_token_secret_name
-  app_repo_git_token_secret_name                 = var.cc_app_repo_git_token_secret_name
+  pipeline_config_repo_git_token_secret_name     = (var.cc_pipeline_config_repo_git_token_secret_name == "") ? var.repo_git_token_secret_name : var.cc_pipeline_config_repo_git_token_secret_name
+  app_repo_git_token_secret_name                 = (var.cc_app_repo_git_token_secret_name == "") ? var.repo_git_token_secret_name : var.cc_app_repo_git_token_secret_name
   slack_webhook_secret_name                      = (var.cc_slack_webhook_secret_name == "") ? var.slack_webhook_secret_name : var.cc_slack_webhook_secret_name
   pipeline_dockerconfigjson_secret_name          = var.cc_pipeline_dockerconfigjson_secret_name
 
   #AUTH TYPE FOR REPOS
-  pipeline_config_repo_auth_type     = (var.cc_pipeline_config_repo_auth_type == "") ? local.repo_auth_typo : var.cc_pipeline_config_repo_auth_type
-  inventory_repo_auth_type           = (var.cc_inventory_repo_auth_type == "") ? local.repo_auth_typo : var.cc_inventory_repo_auth_type
-  issues_repo_auth_type              = (var.cc_issues_repo_auth_type == "") ? local.repo_auth_typo : var.cc_issues_repo_auth_type
-  evidence_repo_auth_type            = (var.cc_evidence_repo_auth_type == "") ? local.repo_auth_typo : var.cc_evidence_repo_auth_type
-  app_repo_auth_type                 = var.cc_app_repo_auth_type
+  pipeline_config_repo_auth_type     = (var.cc_pipeline_config_repo_auth_type == "") ? local.repo_auth_type : var.cc_pipeline_config_repo_auth_type
+  inventory_repo_auth_type           = (var.cc_inventory_repo_auth_type == "") ? local.repo_auth_type : var.cc_inventory_repo_auth_type
+  issues_repo_auth_type              = (var.cc_issues_repo_auth_type == "") ? local.repo_auth_type : var.cc_issues_repo_auth_type
+  evidence_repo_auth_type            = (var.cc_evidence_repo_auth_type == "") ? local.repo_auth_type : var.cc_evidence_repo_auth_type
+  app_repo_auth_type                 = (var.cc_app_repo_auth_type == "") ? local.repo_auth_type : var.cc_app_repo_auth_type
   compliance_pipeline_repo_auth_type = var.cc_compliance_pipeline_repo_auth_type
 
   #PIPELINE CONFIG REPO
