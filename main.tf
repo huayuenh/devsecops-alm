@@ -8,7 +8,7 @@ locals {
   use_kp_override           = (var.ci_enable_key_protect == false) && (var.cd_enable_key_protect == false) && (var.cc_enable_key_protect == false) ? true : false
   use_slack_enable_override = (var.ci_enable_slack == false) && (var.cd_enable_slack == false) && (var.cc_enable_slack == false) ? true : false
 
-  enable_slack = false
+  enable_slack = try(var.enable_slack,false)
   ci_slack_notification_state = (
     (var.ci_slack_notifications != "") ? var.ci_slack_notifications :
     (var.slack_notifications != "") ? var.slack_notifications :
@@ -141,7 +141,7 @@ module "devsecops_ci_toolchain" {
 
 
   #SLACK INTEGRATION
-  enable_slack           = true # (local.use_slack_enable_override) ? local.enable_slack : var.ci_enable_slack
+  enable_slack           = (local.use_slack_enable_override) ? local.enable_slack : var.ci_enable_slack
   slack_channel_name     = (var.ci_slack_channel_name == "") ? var.slack_channel_name : var.ci_slack_channel_name
   slack_team_name        = (var.ci_slack_team_name == "") ? var.slack_team_name : var.ci_slack_team_name
   slack_pipeline_fail    = var.ci_slack_pipeline_fail
