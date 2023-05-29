@@ -491,13 +491,13 @@
 						{
 							"key": "ci_compliance_pipeline_repo_auth_type",
 							"type": "string",
-							"default_value": "oauth",
+							"default_value": "",
 							"description": "Select the method of authentication that is used to access the Git provider. 'oauth' or 'pat'."
 						},
 						{
 							"key": "ci_compliance_pipeline_repo_git_token_secret_name",
 							"type": "string",
-							"default_value": "git-token",
+							"default_value": "",
 							"description": "Name of the Git token secret in the secret provider."
 						},
 						{
@@ -785,7 +785,7 @@
 						{
 							"key": "ci_slack_channel_name",
 							"type": "string",
-							"default_value": "my-channel",
+							"default_value": "",
 							"description": "The Slack channel that notifications are posted to."
 						},
 						{
@@ -815,7 +815,7 @@
 						{
 							"key": "ci_slack_team_name",
 							"type": "string",
-							"default_value": "my-team",
+							"default_value": "",
 							"description": "The Slack team name, which is the word or phrase before `.slack.com` in the team URL."
 						},
 						{
@@ -977,13 +977,13 @@
 						{
 							"key": "cd_compliance_pipeline_repo_auth_type",
 							"type": "string",
-							"default_value": "oauth",
+							"default_value": "",
 							"description": "Select the method of authentication that is used to access the Git provider. 'oauth' or 'pat'."
 						},
 						{
 							"key": "cd_compliance_pipeline_repo_git_token_secret_name",
 							"type": "string",
-							"default_value": "git-token",
+							"default_value": "",
 							"description": "Name of the Git token secret in the secret provider."
 						},
 						{
@@ -1295,7 +1295,7 @@
 						{
 							"key": "cd_slack_channel_name",
 							"type": "string",
-							"default_value": "my-channel",
+							"default_value": "",
 							"description": "The Slack channel that notifications are posted to."
 						},
 						{
@@ -1325,7 +1325,7 @@
 						{
 							"key": "cd_slack_team_name",
 							"type": "string",
-							"default_value": "my-team",
+							"default_value": "",
 							"description": "The Slack team name, which is the word or phrase before .slack.com in the team URL."
 						},
 						{
@@ -1487,13 +1487,13 @@
 						{
 							"key": "cc_compliance_pipeline_repo_auth_type",
 							"type": "string",
-							"default_value": "oauth",
+							"default_value": "",
 							"description": "Select the method of authentication that is used to access the Git provider. 'oauth' or 'pat'."
 						},
 						{
 							"key": "cc_compliance_pipeline_repo_git_token_secret_name",
 							"type": "string",
-							"default_value": "git-token",
+							"default_value": "",
 							"description": "Name of the Git token secret in the secret provider."
 						},
 						{
@@ -1739,7 +1739,7 @@
 						{
 							"key": "cc_slack_channel_name",
 							"type": "string",
-							"default_value": "my-channel",
+							"default_value": "",
 							"description": "The Slack channel that notifications are posted to."
 						},
 						{
@@ -1769,7 +1769,7 @@
 						{
 							"key": "cc_slack_team_name",
 							"type": "string",
-							"default_value": "my-team",
+							"default_value": "",
 							"description": "The Slack team name, which is the word or phrase before .slack.com in the team URL."
 						},
 						{
