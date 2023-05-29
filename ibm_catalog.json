@@ -219,6 +219,12 @@
 							"description": "Specify Git user or group for your application. This must be set if the repository authentication type is `pat` (personal access token)."
 						},
 						{
+							"key": "enable_slack",
+							"type": "boolean",
+							"default_value": false,
+							"description": "Set to `true` to create the integration. This requires a valid `slack_channel_name` and a valid `webhook` (see `slack_webhook_secret_name`). This setting applies for CI, CD, and CC toolchains. To enable separately, see `ci_enable_slack`, `cd_enable_slack`, and `cc_enable_slack`."
+						},
+						{
 							"key": "slack_channel_name",
 							"type": "string",
 							"default_value": "my-channel",
