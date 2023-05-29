@@ -222,7 +222,7 @@
 							"key": "enable_slack",
 							"type": "boolean",
 							"default_value": false,
-							"description": "Set to `true` to create the integration. This requires a valid `slack_channel_name` and a valid `webhook` (see `slack_webhook_secret_name`). This setting applies for CI, CD, and CC toolchains. To enable separately, see `ci_enable_slack`, `cd_enable_slack`, and `cc_enable_slack`."
+							"description": "Default: false. Set to true to create the integration."
 						},
 						{
 							"key": "slack_channel_name",
