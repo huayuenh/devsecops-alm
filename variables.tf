@@ -280,6 +280,12 @@ variable "registry_namespace" {
   default     = ""
 }
 
+variable "ci_registry_namespace" {
+  type        = string
+  description = "A unique namespace within the IBM Cloud Container Registry region where the application image is stored. (deprecated. Use `registry_namespace`)"
+  default     = ""
+}
+
 variable "ci_registry_region" {
   type        = string
   description = "The IBM Cloud Region where the IBM Cloud Container Registry namespace is to be created. Use the short form of the regions. For example `us-south`."

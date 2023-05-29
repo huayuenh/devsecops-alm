@@ -759,6 +759,13 @@
 							"description": "Name of the Cloud API key secret in the secret provider."
 						},
 						{
+							"key": "ci_registry_namespace",
+							"type": "string",
+							"default_value": "",
+							"description": "A unique namespace within the IBM Cloud Container Registry region where the application image is stored. (Deprecated. Use `registry_namespace`)",
+							"required": true
+						},
+						{
 							"key": "ci_registry_region",
 							"type": "string",
 							"default_value": "",
