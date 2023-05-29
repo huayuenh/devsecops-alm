@@ -141,7 +141,7 @@ module "devsecops_ci_toolchain" {
 
 
   #SLACK INTEGRATION
-  enable_slack           = (local.use_slack_enable_override) ? local.enable_slack : var.ci_enable_slack
+  enable_slack           = true # (local.use_slack_enable_override) ? local.enable_slack : var.ci_enable_slack
   slack_channel_name     = (var.ci_slack_channel_name == "") ? var.slack_channel_name : var.ci_slack_channel_name
   slack_team_name        = (var.ci_slack_team_name == "") ? var.slack_team_name : var.ci_slack_team_name
   slack_pipeline_fail    = var.ci_slack_pipeline_fail
