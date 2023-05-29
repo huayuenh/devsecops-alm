@@ -8,24 +8,25 @@ locals {
   use_kp_override           = (var.ci_enable_key_protect == false) && (var.cd_enable_key_protect == false) && (var.cc_enable_key_protect == false) ? true : false
   use_slack_enable_override = (var.ci_enable_slack == false) && (var.cd_enable_slack == false) && (var.cc_enable_slack == false) ? true : false
 
+  enable_slack = try(var.enable_slack, false)
   ci_slack_notification_state = (
     (var.ci_slack_notifications != "") ? var.ci_slack_notifications :
     (var.slack_notifications != "") ? var.slack_notifications :
-    (local.use_slack_enable_override) && (var.enable_slack) ? "1" :
+    (local.use_slack_enable_override) && (locale.enable_slack) ? "1" :
     (var.ci_enable_slack) ? "1" : "0"
   )
 
   cd_slack_notification_state = (
     (var.cd_slack_notifications != "") ? var.cd_slack_notifications :
     (var.slack_notifications != "") ? var.slack_notifications :
-    (local.use_slack_enable_override) && (var.enable_slack) ? "1" :
+    (local.use_slack_enable_override) && (locale.enable_slack) ? "1" :
     (var.cd_enable_slack) ? "1" : "0"
   )
 
   cc_slack_notification_state = (
     (var.cc_slack_notifications != "") ? var.cc_slack_notifications :
     (var.slack_notifications != "") ? var.slack_notifications :
-    (local.use_slack_enable_override) && (var.enable_slack) ? "1" :
+    (local.use_slack_enable_override) && (locale.enable_slack) ? "1" :
     (var.cc_enable_slack) ? "1" : "0"
   )
 
@@ -140,7 +141,7 @@ module "devsecops_ci_toolchain" {
 
 
   #SLACK INTEGRATION
-  enable_slack           = (local.use_slack_enable_override) ? var.enable_slack : var.ci_enable_slack
+  enable_slack           = (local.use_slack_enable_override) ? locale.enable_slack : var.ci_enable_slack
   slack_channel_name     = (var.ci_slack_channel_name == "") ? var.slack_channel_name : var.ci_slack_channel_name
   slack_team_name        = (var.ci_slack_team_name == "") ? var.slack_team_name : var.ci_slack_team_name
   slack_pipeline_fail    = var.ci_slack_pipeline_fail
@@ -264,7 +265,7 @@ module "devsecops_cd_toolchain" {
   region                        = var.cd_region
 
   #SLACK INTEGRATION
-  enable_slack           = (local.use_slack_enable_override) ? var.enable_slack : var.cd_enable_slack
+  enable_slack           = (local.use_slack_enable_override) ? locale.enable_slack : var.cd_enable_slack
   slack_channel_name     = (var.cd_slack_channel_name == "") ? var.slack_channel_name : var.cd_slack_channel_name
   slack_team_name        = (var.cd_slack_team_name == "") ? var.slack_team_name : var.cd_slack_team_name
   slack_pipeline_fail    = var.cd_slack_pipeline_fail
@@ -368,7 +369,7 @@ module "devsecops_cc_toolchain" {
   enable_pipeline_dockerconfigjson = var.cc_enable_pipeline_dockerconfigjson
 
   #SLACK INTEGRATION
-  enable_slack           = (local.use_slack_enable_override) ? var.enable_slack : var.cc_enable_slack
+  enable_slack           = (local.use_slack_enable_override) ? locale.enable_slack : var.cc_enable_slack
   slack_channel_name     = (var.cc_slack_channel_name == "") ? var.slack_channel_name : var.cc_slack_channel_name
   slack_team_name        = (var.cc_slack_team_name == "") ? var.slack_team_name : var.cc_slack_team_name
   slack_pipeline_fail    = var.cc_slack_pipeline_fail
